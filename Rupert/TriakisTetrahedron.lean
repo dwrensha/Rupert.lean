@@ -38,7 +38,7 @@ lemma inner_rot_so3 : inner_rot ∈ SO3 := by
 def inner_offset : ℝ² := ![0.000142715774602, 0.000148978750753]
 
 set_option maxHeartbeats 10000000 in
-theorem rupert : IsRupert triakis_tetrahedron := by
+theorem rupert : IsRupertPoly triakis_tetrahedron := by
   rw [rupert_iff_rupert']
   use outer_rot, outer_rot_so3, inner_rot, inner_rot_so3, inner_offset
   intro outer_shadow inner_shadow

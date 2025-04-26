@@ -40,7 +40,7 @@ noncomputable
 def offset_transform_is_affine (off : E 2) (rot : SO3) : ℝ³ →ᵃ[ℝ] ℝ² :=
   AffineMap.comp (offset_affine off) (dropz_rotation_is_affine rot)
 
-theorem rupert'_imp_rupert {ι : Type} [Fintype ι] (v : ι → ℝ³) : IsRupert' v → IsRupert v := by
+theorem rupert'_imp_rupert {ι : Type} [Fintype ι] (v : ι → ℝ³) : IsRupertPoly' v → IsRupertPoly v := by
  intro ⟨ outer_rot,  outer_so3, inner_rot, inner_so3, offset, rupert⟩
  use outer_rot, outer_so3, inner_rot, inner_so3, offset
  let raw_outer_shadow := Set.range fun i ↦ dropz (outer_rot *ᵥ v i)
@@ -64,7 +64,7 @@ theorem rupert'_imp_rupert {ι : Type} [Fintype ι] (v : ι → ℝ³) : IsRuper
     Convex.interior (convex_convexHull ℝ raw_outer_shadow)
  exact (Convex.convexHull_subset_iff interior_convex).mpr rupert
 
-theorem rupert_imp_rupert' {ι : Type} [Fintype ι] (v : ι → ℝ³) : IsRupert v → IsRupert' v := by
+theorem rupert_imp_rupert' {ι : Type} [Fintype ι] (v : ι → ℝ³) : IsRupertPoly v → IsRupertPoly' v := by
  intro ⟨ outer_rot,  outer_so3, inner_rot, inner_so3, offset, rupert⟩
  use outer_rot, outer_so3, inner_rot, inner_so3, offset
  let raw_outer_shadow := Set.range fun i ↦ dropz (outer_rot *ᵥ v i)
@@ -88,5 +88,5 @@ theorem rupert_imp_rupert' {ι : Type} [Fintype ι] (v : ι → ℝ³) : IsRuper
  intro x hx
  exact rupert (subset_convexHull ℝ raw_inner_shadow hx)
 
-theorem rupert_iff_rupert' {ι : Type} [Fintype ι] (v : ι → ℝ³) : IsRupert v ↔ IsRupert' v :=
+theorem rupert_iff_rupert' {ι : Type} [Fintype ι] (v : ι → ℝ³) : IsRupertPoly v ↔ IsRupertPoly' v :=
   ⟨rupert_imp_rupert' v, rupert'_imp_rupert v⟩

@@ -40,4 +40,4 @@ noncomputable def snub_cube : Fin 24 → ℝ³ :=
     ![     trib,  1/trib,      1]
   ]
 
-proof_wanted rupert : ¬ IsRupert snub_cube
+proof_wanted rupert : ¬ IsRupertPoly snub_cube

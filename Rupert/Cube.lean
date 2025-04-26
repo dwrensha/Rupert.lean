@@ -47,4 +47,4 @@ def outer_rot := outer_rot2 * outer_rot1
 
 end rotations
 
-proof_wanted rupert : IsRupert cube
+proof_wanted rupert : IsRupertPoly cube

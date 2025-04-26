@@ -70,7 +70,7 @@ lemma snd_abs_le_norm (v : ℝ²) : |v 1| ≤ ‖v‖ := by
   linarith
 
 set_option maxHeartbeats 10000000 in
-theorem square_is_rupert : IsRupert square := by
+theorem square_is_rupert : IsRupertPoly square := by
 /-
 
 The diagram shows the (x,y) plane, the z axis runs through the
