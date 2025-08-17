@@ -326,7 +326,7 @@ def open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
      refine ⟨?_ , ⟨?_, ⟨?_, ?_⟩⟩ ⟩
      · exact inject '' U
      · intro x hx
-       exact Set.image_subset inject U_fits hx
+       exact Set.image_mono U_fits hx
      · exact Homeomorph.finTwoArrow.symm.isOpen_image.mpr U_open
      · rw [Set.mem_image]
        use (p0, p1);
