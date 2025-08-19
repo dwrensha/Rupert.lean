@@ -148,7 +148,7 @@ theorem rotate_x (θ : ℝ) : matrix_of_quat (rotate_x_quat θ) = rotate_x_mat �
 noncomputable
 def rotateToTarget (src tgt : ℝ³) : Quaternion ℝ :=
    let θ := cos⁻¹ (inner _ src tgt / (2 * ‖src‖  * ‖tgt‖))
-   let v := src ×₃ tgt
+   let v := src ⨯₃ tgt
    ⟨cos (θ/2), sin (θ/2) * v 0, sin (θ/2) * v 1, sin (θ/2) * v 2⟩
 
 proof_wanted rotate_parallel_target (src tgt : ℝ³) : ∃ ℓ : ℝ,

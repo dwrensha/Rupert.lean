@@ -100,7 +100,7 @@ lemma outer_shadow_points_in_shadow : ∀ (i : Fin 8), (1/√6) • (outer_shado
     use w
     rw [← hw]
     change _ = _ • proj_xy_linear _
-    simp only [ ← proj_xy_linear.map_smul, smul_mulVec_assoc]
+    simp only [ ← proj_xy_linear.map_smul, smul_mulVec]
     rfl
   apply xfer
   let j := i
