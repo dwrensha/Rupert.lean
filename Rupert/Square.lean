@@ -172,12 +172,7 @@ by π/4 radians. No offset translation is needed.
        rw [mul_pow, Real.sq_sqrt zero_le_two]
        norm_num
      · simp [ε₁]
-       have h1 : 0 ≤ 2 * (1 - 1e-3) * √2 := by positivity
-       suffices H : (0:ℝ) ≤ ((1 - 1e-3) * √2 + 1) from div_nonneg H h1
-       suffices H : (1:ℝ) ≤ (1 - 1e-3) * √2 by linarith only [H]
-       refine (sq_le_sq₀ zero_le_one (by positivity)).mp ?_
-       rw [mul_pow, Real.sq_sqrt zero_le_two]
-       norm_num
+       positivity
    · field_simp; ring
    · intro i
      fin_cases i
@@ -218,12 +213,7 @@ by π/4 radians. No offset translation is needed.
    refine ⟨?_, ?_, ?_, ?_⟩
    · intro i; fin_cases i
      · simp [ε₁]
-       have h1 : 0 ≤ 2 * (1 - 1e-3) * √2 := by positivity
-       suffices H : (0:ℝ) ≤ ((1 - 1e-3) * √2 + 1) from div_nonneg H h1
-       suffices H : (1:ℝ) ≤ (1 - 1e-3) * √2 by linarith only [H]
-       refine (sq_le_sq₀ zero_le_one (by positivity)).mp ?_
-       rw [mul_pow, Real.sq_sqrt zero_le_two]
-       norm_num
+       positivity
      · simp [ε₁]
        have h1 : 0 ≤ 2 * (1 - 1e-3) * √2 := by positivity
        suffices H : (0:ℝ) ≤ ((1 - 1e-3) * √2 - 1) from div_nonneg H h1
