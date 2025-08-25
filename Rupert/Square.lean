@@ -80,11 +80,7 @@ by π/4 radians. No offset translation is needed.
    use 0.00001
    have h : 1 / 2 < √2 / 2 := by
      suffices H : 1 < √2 by linarith
-     suffices H : 1^2 < √2^2 by
-       have h2 : 0 ≤ √2 := by positivity
-       exact lt_of_pow_lt_pow_left₀ 2 h2 H
-     rw [Real.sq_sqrt (by norm_num)]
-     norm_num
+     exact one_lt_sqrt_two
    constructor
    · norm_num
    · linarith
