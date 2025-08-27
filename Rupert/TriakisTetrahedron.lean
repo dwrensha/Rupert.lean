@@ -42,6 +42,7 @@ lemma outer_rot_so3 : outer_rot ∈ SO3 := by
   have h : outer_quat.normSq ≠ 0 := by norm_num [outer_quat, Quaternion.normSq_def]
   exact matrix_of_quat_is_s03 h
 
+set_option maxHeartbeats 400000 in
 theorem rupert : IsRupert vertices := by
   rw [rupert_iff_rupert']
   use inner_rot, inner_rot_so3, inner_offset, outer_rot, outer_rot_so3
