@@ -235,7 +235,7 @@ by π/4 radians. No offset translation is needed.
        constructor
        · use 0; simp; ring_nf
        · ext i; fin_cases i
-         · simp; ring
+         · norm_num
          · simp
    · ext i
      fin_cases i
