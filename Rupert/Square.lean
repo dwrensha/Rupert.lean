@@ -169,7 +169,9 @@ by π/4 radians. No offset translation is needed.
        norm_num
      · simp [ε₁]
        positivity
-   · field_simp; ring
+   · simp only [Fin.sum_univ_two, Fin.isValue, cons_val_zero, cons_val_one,
+                cons_val_fin_one]
+     field_simp; ring
    · intro i
      fin_cases i
      · unfold outer_shadow proj_xy outer_rot rh
@@ -195,8 +197,8 @@ by π/4 radians. No offset translation is needed.
          · simp
    · ext i
      fin_cases i
-     · field_simp; ring
-     · field_simp
+     · simp; field_simp; ring
+     · simp
  have posx_in_outer : ![1, 0] ∈ interior (convexHull ℝ outer_shadow) := by
    apply Convex.mem_interior_hull hε₀0 hε₁ zero_in_outer
    rw [mem_convexHull_iff_exists_fintype]
@@ -217,7 +219,7 @@ by π/4 radians. No offset translation is needed.
        refine (sq_le_sq₀ zero_le_one (by positivity)).mp ?_
        rw [mul_pow, Real.sq_sqrt zero_le_two]
        norm_num
-   · field_simp; ring
+   · simp; field_simp; ring
    · intro i
      fin_cases i
      · unfold outer_shadow proj_xy outer_rot rh
@@ -239,8 +241,8 @@ by π/4 radians. No offset translation is needed.
          · simp
    · ext i
      fin_cases i
-     · field_simp; ring
-     · field_simp
+     · simp; field_simp; ring
+     · simp
 
  -- we have y ∈ ℝ³ that came from the square, which after being rotated by
  -- inner_rot and projected, is x

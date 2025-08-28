@@ -39,7 +39,8 @@ lemma move_scale {n : ℕ} {s : ℝ} (sgz : s > 0) {v : E n} {Y : Set (E n)} :
      v ∈ s • Y → (1 / s) • v ∈ Y := by
   intro ⟨_, ⟨winy, factor⟩⟩
   rw [← factor, smul_smul]
-  field_simp; exact winy
+  rw [one_div_mul_cancel (ne_of_lt sgz).symm, one_smul]
+  exact winy
 
 lemma subset_interior_hull' {n : ℕ} {X : Set (E n)} {ε ℓ: ℝ}
     (hε : 0 < ε)
@@ -65,6 +66,7 @@ lemma subset_interior_hull' {n : ℕ} {X : Set (E n)} {ε ℓ: ℝ}
   have seg1_in_X : seg1 ∈ X := by -- "outer x" is still in X
       obtain ⟨w, winx, ix_eq_lw⟩ := hix
       simp only [seg1, ← ix_eq_lw]; rw [smul_smul]; field_simp
+      simp only [one_smul]
       exact winx
 
   have seg2_in_X : seg2 ∈ X := by
@@ -79,7 +81,7 @@ lemma subset_interior_hull' {n : ℕ} {X : Set (E n)} {ε ℓ: ℝ}
         ⟨ le_of_lt (by simp_all only [Set.mem_Ioo]),
           le_of_lt olgz,
           add_sub_cancel _ _,
-          by rw [smul_smul, smul_smul]; field_simp ⟩⟩
+          by rw [smul_smul, smul_smul]; field_simp; simp ⟩⟩
 
   exact segment_subset_convexHull seg1_in_X seg2_in_X pt_in_seg
 

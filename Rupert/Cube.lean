@@ -47,7 +47,8 @@ lemma two_three_six : √3 * √2 = √6 := by calc √3 * √2
 lemma outer_rot_so3 : outer_rot ∈ SO3 := by
  have h : (6 : ℝ) • 1 = (6 : Matrix (Fin 3) (Fin 3) ℝ) :=
    Matrix.smul_one_eq_diagonal 6
- have h2: (√6)⁻¹ * (√6)⁻¹ * 6 = 1 := by field_simp
+ have h2: (√6)⁻¹ * (√6)⁻¹ * 6 = 1 := by
+   rw [←mul_inv]; simp
  let r := (√6)⁻¹
  have hr : (√6)⁻¹ = r := rfl
  dsimp only [outer_rot]
