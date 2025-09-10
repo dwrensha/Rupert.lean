@@ -50,8 +50,8 @@ lemma denorm_half_unitary (q : Quaternion ℝ)
   all_goals simp only [Fin.zero_eta, Fin.isValue, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
    Matrix.cons_val_fin_one, Fin.succ_zero_eq_one, Matrix.cons_val_one,
    Fin.succ_one_eq_two, Matrix.cons_val, Finset.univ_eq_empty, Matrix.cons_val_succ,
-   Quaternion.mul_re, Quaternion.star_re, Quaternion.star_imI, mul_neg, sub_neg_eq_add,
-   Quaternion.star_imJ, Quaternion.star_imK, MonoidWithZeroHom.coe_mk, ZeroHom.coe_mk, Matrix.smul_apply,
+   Quaternion.re_mul, Quaternion.re_star, Quaternion.imI_star, mul_neg, sub_neg_eq_add,
+   Quaternion.imJ_star, Quaternion.imK_star, MonoidWithZeroHom.coe_mk, ZeroHom.coe_mk, Matrix.smul_apply,
    Matrix.one_apply_eq, smul_eq_mul]
   all_goals (simp; ring_nf)
 
@@ -62,8 +62,8 @@ lemma denorm_half_unitary2 (q : Quaternion ℝ)
   all_goals simp only [Fin.zero_eta, Fin.isValue, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
    Matrix.cons_val_fin_one, Fin.succ_zero_eq_one, Matrix.cons_val_one,
    Fin.succ_one_eq_two, Matrix.cons_val, Finset.univ_eq_empty, Matrix.cons_val_succ,
-   Quaternion.mul_re, Quaternion.star_re, Quaternion.star_imI, mul_neg, sub_neg_eq_add,
-   Quaternion.star_imJ, Quaternion.star_imK, MonoidWithZeroHom.coe_mk, ZeroHom.coe_mk, Matrix.smul_apply,
+   Quaternion.re_mul, Quaternion.re_star, Quaternion.imI_star, mul_neg, sub_neg_eq_add,
+   Quaternion.imJ_star, Quaternion.imK_star, MonoidWithZeroHom.coe_mk, ZeroHom.coe_mk, Matrix.smul_apply,
    Matrix.one_apply_eq, smul_eq_mul]
   all_goals (simp; ring_nf)
 

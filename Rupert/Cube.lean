@@ -106,7 +106,7 @@ lemma outer_shadow_points_in_shadow : ∀ (i : Fin 8), (1/√6) • (outer_shado
   apply xfer
   let j := i
   fin_cases i <;>
-  · simp only [outer_shadow_denorm, cons_mulVec, cons_dotProduct, zero_mul, neg_mul, dotProduct_empty,
+  · simp only [outer_shadow_denorm, cons_mulVec, cons_dotProduct, zero_mul, neg_mul, dotProduct_of_isEmpty,
     add_zero, zero_add, one_mul, empty_mulVec, outer_shadow_points_denorm, Fin.zero_eta,
     Fin.isValue, cons_val_zero, Set.mem_setOf_eq];
     use j;

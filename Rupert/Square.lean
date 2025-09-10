@@ -175,7 +175,7 @@ by π/4 radians. No offset translation is needed.
    · intro i
      fin_cases i
      · unfold outer_shadow proj_xy outer_rot rh
-       simp only [Fin.isValue, cons_mulVec, cons_dotProduct, zero_mul, dotProduct_empty, add_zero,
+       simp only [Fin.isValue, cons_mulVec, cons_dotProduct, zero_mul, dotProduct_of_isEmpty, add_zero,
          neg_mul, one_mul, zero_add, empty_mulVec, cons_val_zero, cons_val_one, neg_sub, Fin.zero_eta, Set.mem_image]
        use ![√2, 0]
        constructor
@@ -184,7 +184,7 @@ by π/4 radians. No offset translation is needed.
        · ext i
          fin_cases i <;> simp
      · simp only [proj_xy, mulVec, outer_rot, rh, Fin.isValue, of_apply, cons_val',
-        cons_val_fin_one, cons_val_zero, cons_dotProduct, zero_mul, dotProduct_empty, add_zero,
+        cons_val_fin_one, cons_val_zero, cons_dotProduct, zero_mul, dotProduct_of_isEmpty, add_zero,
         cons_val_one, neg_mul, neg_sub, Fin.mk_one, Set.mem_image, outer_shadow]
        use ![-√2, 0]
        constructor
@@ -223,7 +223,7 @@ by π/4 radians. No offset translation is needed.
    · intro i
      fin_cases i
      · unfold outer_shadow proj_xy outer_rot rh
-       simp only [Fin.isValue, cons_mulVec, cons_dotProduct, zero_mul, dotProduct_empty, add_zero,
+       simp only [Fin.isValue, cons_mulVec, cons_dotProduct, zero_mul, dotProduct_of_isEmpty, add_zero,
          neg_mul, one_mul, zero_add, empty_mulVec, cons_val_zero, cons_val_one, neg_sub, Fin.zero_eta, Set.mem_image]
        use ![√2, 0]
        constructor
@@ -231,7 +231,7 @@ by π/4 radians. No offset translation is needed.
        · ext i
          fin_cases i <;> simp
      · simp only [proj_xy, mulVec, outer_rot, rh, Fin.isValue, of_apply, cons_val',
-        cons_val_fin_one, cons_val_zero, cons_dotProduct, zero_mul, dotProduct_empty, add_zero,
+        cons_val_fin_one, cons_val_zero, cons_dotProduct, zero_mul, dotProduct_of_isEmpty, add_zero,
         cons_val_one, neg_mul, neg_sub, Fin.mk_one, Set.mem_image, outer_shadow]
        use ![-√2, 0]
        constructor
