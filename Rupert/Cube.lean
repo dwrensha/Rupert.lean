@@ -1,3 +1,4 @@
+
 import Rupert.Basic
 import Rupert.Convex
 import Rupert.Quaternion
@@ -358,10 +359,7 @@ lemma nontrivial_rectangle1 : rnn 1 < rpp 1 := by
   simp only [one_div, neg_mul, Fin.isValue, cons_val, PiLp.add_apply, PiLp.smul_apply, cons_val_one,
     cons_val_fin_one, smul_eq_mul, mul_neg, cons_val_zero, add_neg_lt_iff_lt_add]
   field_simp
-  ring_nf
-  trans
-  · exact (show (√6)⁻¹ * (-3 / 2) < 0 by norm_num)
-  · positivity
+  norm_num
 
 def closed_mediant : Set ℝ² := closed_rectangle (rnn 0) (rpp 0) (rnn 1) (rpp 1)
 def open_mediant : Set ℝ² := open_rectangle (rnn 0) (rpp 0) (rnn 1) (rpp 1)
