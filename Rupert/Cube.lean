@@ -171,7 +171,7 @@ theorem rpn_in_shadow : rpn ∈ convexHull ℝ outer_shadow := by
  · intro i; fin_cases i <;>
    · simp only [Fin.mk_one, Fin.zero_eta, cons_val_one, cons_val_zero, coeffs]
      positivity
- · simp only [ Fin.sum_univ_two, cons_val_zero, cons_val_one, coeffs]; linarith
+ · simp only [ Fin.sum_univ_two, cons_val_zero, cons_val_one, coeffs]; norm_num
  · intro i; fin_cases i <;> apply outer_shadow_points_in_shadow
  · simp only [Fin.sum_univ_two]
    rfl
