@@ -105,14 +105,19 @@ lemma outer_shadow_points_in_shadow : ∀ (i : Fin 8), (1/√6) • (outer_shado
     simp only [ ← proj_xy_linear.map_smul, smul_mulVec]
     rfl
   apply xfer
-  let j := i
+  unfold outer_shadow_denorm
+  rw [Set.mem_setOf_eq]
+  use i
   fin_cases i <;>
-  · simp only [outer_shadow_denorm, cons_mulVec, cons_dotProduct, zero_mul, neg_mul, dotProduct_of_isEmpty,
+  · simp only [cons_mulVec, cons_dotProduct, zero_mul, neg_mul, dotProduct_of_isEmpty,
     add_zero, zero_add, one_mul, empty_mulVec, outer_shadow_points_denorm, Fin.zero_eta,
-    Fin.isValue, cons_val_zero, Set.mem_setOf_eq];
-    use j;
-    simp only [Fin.reduceFinMk, cons_val, cube, head_cons, j, proj_xy, tail_cons];
-    ring_nf
+    Fin.isValue, cons_val_zero]
+    simp only [Fin.reduceFinMk, cons_val, cube, head_cons, proj_xy, tail_cons,
+                mul_neg, mul_one, neg_neg, add_neg_cancel, add_zero]
+    ext i
+    fin_cases i
+    · simp [mul_two]
+    · norm_num
 
 ---------------------------------------------------------------------------------
 -- ++
