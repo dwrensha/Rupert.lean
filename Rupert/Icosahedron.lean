@@ -1,4 +1,4 @@
-import Mathlib.Data.Real.GoldenRatio
+import Mathlib.NumberTheory.Real.GoldenRatio
 import Rupert.Basic
 import Rupert.Convex
 import Rupert.MatrixSimps
