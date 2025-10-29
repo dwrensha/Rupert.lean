@@ -141,9 +141,7 @@ by π/4 radians. No offset translation is needed.
        use 1; simp[neg_div']; ring_nf
    · rw [Fin.sum_univ_four]
      ext i
-     fin_cases i
-     · simp; field_simp; ring_nf
-     · simp; field_simp; ring_nf
+     fin_cases i <;> (simp; grind)
 
  -- subset_interior_hull
  let ε₁ : ℝ := 0.001

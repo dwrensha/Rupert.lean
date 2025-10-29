@@ -126,15 +126,11 @@ lemma ball_in_hull_of_corners_in_hull {X : Set (E 2)} {ε : ℝ} (hε : ε ∈ S
   have hv0 : v 0 / ε < 1 := by bound
   have hv0' : -1 < v 0 / ε := by
     have h1 : -ε / ε < v 0 / ε := (div_lt_div_iff_of_pos_right hε0).mpr hva00
-    rw [neg_div] at h1
-    have : ε / ε = 1 := by field_simp
-    rwa [this] at h1
+    grind only
   have hv1 : v 1 / ε < 1 := by bound
   have hv1' : -1 < v 1 / ε := by
     have h1 : -ε / ε < v 1 / ε := (div_lt_div_iff_of_pos_right hε0).mpr hva10
-    rw [neg_div] at h1
-    have : ε / ε = 1 := by field_simp
-    rwa [this] at h1
+    grind only
   rw [←ClosureOperator.idempotent]
   rw [mem_convexHull_iff_exists_fintype]
   use Fin 4, inferInstance
