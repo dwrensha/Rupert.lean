@@ -11,16 +11,10 @@ def proj_xy_linear : ℝ³ →ₗ[ℝ] ℝ² :=
    toFun := proj_xy,
    map_add' := by
      intro x y;
-     ext i; fin_cases i;
-     · simp only [proj_xy, Fin.isValue, PiLp.add_apply, Fin.zero_eta, cons_val_zero];
-     · simp only [proj_xy, Fin.isValue, PiLp.add_apply, Fin.mk_one, cons_val_one, cons_val_fin_one]
+     ext i; fin_cases i <;> simp [proj_xy]
    ,
    map_smul' := by
-     intro x y; ext i; fin_cases i;
-     · simp only [proj_xy, Fin.isValue, PiLp.smul_apply, smul_eq_mul, Fin.zero_eta, cons_val_zero,
-       RingHom.id_apply];
-     · simp only [proj_xy, Fin.isValue, PiLp.smul_apply, smul_eq_mul, Fin.mk_one, cons_val_one,
-       cons_val_fin_one, RingHom.id_apply]
+     intro x y; ext i; fin_cases i <;> simp [proj_xy]
    }
 
 noncomputable

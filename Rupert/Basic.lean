@@ -11,7 +11,7 @@ abbrev SO3 := Matrix.specialOrthogonalGroup (Fin 3) ℝ
 
 /-- Projects a vector from 3-space to 2-space by dropping the third coordinate. -/
 def proj_xy {k : Type} (v : EuclideanSpace k (Fin 3)) : EuclideanSpace k (Fin 2) :=
-  ![v 0, v 1]
+  !₂[v 0, v 1]
 
 /-- The Rupert Property for a convex polyhedron given as an indexed finite set of vertices. -/
 def IsRupert {ι : Type} [Fintype ι] (vertices : ι → ℝ³) : Prop :=

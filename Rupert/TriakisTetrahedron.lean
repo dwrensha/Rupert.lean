@@ -87,7 +87,7 @@ theorem rupert : IsRupert vertices := by
       · exact fun i ↦ ⟨i, rfl⟩
       · simp only [proj_xy, outer_rot, matrix_of_quat, outer_quat, vertices,
                    Fin.sum_univ_eight, ε₀, matrix_simps]
-        norm_num
+        ext i; fin_cases i <;> norm_num
   intro v hv
   let ε₁ : ℝ := 1e-11
   have hε₁ : ε₁ ∈ Set.Ioo 0 1 := by norm_num
@@ -177,6 +177,4 @@ theorem rupert : IsRupert vertices := by
     · rw [←hy]
       simp only [proj_xy, outer_rot, matrix_of_quat, outer_quat, vertices,
         Fin.sum_univ_eight, inner_offset, inner_rot, inner_quat, ε₁, matrix_simps]
-      rw [Matrix.smul_vec2, Matrix.smul_vec2, Matrix.smul_vec2,
-          Matrix.vec2_add, Matrix.vec2_add, Matrix.vec2_add]
-      norm_num
+      ext i; fin_cases i <;> norm_num

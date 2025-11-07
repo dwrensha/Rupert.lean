@@ -132,13 +132,15 @@ by π/4 radians. No offset translation is needed.
    · intro i
      fin_cases i
      · simp [outer_shadow, proj_xy, rh]
-       use 3; simp
+       use 3; simp; rfl
      · simp [outer_shadow, proj_xy, rh]
-       use 0; simp; ring_nf
+       use 0; simp
+       ring_nf
+       rfl
      · simp [outer_shadow, proj_xy, rh]
-       use 2; simp
+       use 2; simp; rfl
      · simp [outer_shadow, proj_xy, rh]
-       use 1; simp[neg_div']; ring_nf
+       use 1; simp[neg_div']; ring_nf; rfl
    · rw [Fin.sum_univ_four]
      ext i
      fin_cases i <;> (simp; grind)
@@ -178,7 +180,7 @@ by π/4 radians. No offset translation is needed.
        use ![√2, 0]
        constructor
        · rw [Set.mem_setOf]
-         use 3; simp
+         use 3; simp; rfl
        · ext i
          fin_cases i <;> simp
      · simp only [proj_xy, mulVec, outer_rot, rh, Fin.isValue, of_apply, cons_val',
@@ -190,6 +192,7 @@ by π/4 radians. No offset translation is needed.
          use 0
          simp
          ring_nf
+         rfl
        · ext i; fin_cases i
          · simp; ring
          · simp
@@ -225,7 +228,7 @@ by π/4 radians. No offset translation is needed.
          neg_mul, one_mul, zero_add, empty_mulVec, cons_val_zero, cons_val_one, neg_sub, Fin.zero_eta, Set.mem_image]
        use ![√2, 0]
        constructor
-       · use 3; simp
+       · use 3; simp; rfl
        · ext i
          fin_cases i <;> simp
      · simp only [proj_xy, mulVec, outer_rot, rh, Fin.isValue, of_apply, cons_val',
@@ -233,7 +236,7 @@ by π/4 radians. No offset translation is needed.
         cons_val_one, neg_mul, neg_sub, Fin.mk_one, Set.mem_image, outer_shadow]
        use ![-√2, 0]
        constructor
-       · use 0; simp; ring_nf
+       · use 0; simp; ring_nf; rfl
        · ext i; fin_cases i
          · norm_num
          · simp

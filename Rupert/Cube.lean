@@ -417,9 +417,9 @@ theorem rupert : IsRupert cube := by
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [Fin.isValue, extract, Fin.zero_eta, cons_val_zero, cons_val_one, cons_val_fin_one,
-      inject, and_true]
-    refine ⟨⟨ ?_, ?_⟩, ?_, ?_⟩
+    simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.zero_eta, cons_val_zero, cons_val_one, cons_val_fin_one,
+      inject]
+    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_,⟩, rfl⟩
     · exact rnn_contains_cube2.1
     · exact rpp_contains_cube.1
     · exact rnn_contains_cube2.2
@@ -430,9 +430,9 @@ theorem rupert : IsRupert cube := by
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [Fin.isValue, extract, Fin.mk_one, cons_val_one, cons_val_zero, cons_val_fin_one,
-      inject, and_true]
-    refine ⟨⟨ ?_, ?_⟩, ?_, ?_⟩
+    simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.mk_one, cons_val_one, cons_val_zero, cons_val_fin_one,
+      inject]
+    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube2.1
     · exact rpp_contains_cube.1
     · exact rnn_contains_cube.2
@@ -442,9 +442,9 @@ theorem rupert : IsRupert cube := by
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
-      cons_val_fin_one, inject, and_true]
-    refine ⟨⟨ ?_, ?_⟩, ?_, ?_⟩
+    simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
+      cons_val_fin_one, inject]
+    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube.1
     · exact rpp_contains_cube2.1
     · exact rnn_contains_cube.2
@@ -455,8 +455,8 @@ theorem rupert : IsRupert cube := by
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
-      cons_val_fin_one, inject, and_true]
-    refine ⟨⟨ ?_, ?_⟩, ?_, ?_⟩
+               inject]
+    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube.1
     · exact rpp_contains_cube2.1
     · exact rnn_contains_cube2.2
@@ -467,9 +467,8 @@ theorem rupert : IsRupert cube := by
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [Fin.isValue, extract, cons_val_zero, cons_val_one, cons_val_fin_one,
-      inject, and_true]
-    refine ⟨⟨ ?_, ?_⟩, ?_, ?_⟩
+    simp only [Fin.isValue, extract, inject]
+    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube2.1
     · exact rpp_contains_cube.1
     · exact rnn_contains_cube2.2
@@ -481,9 +480,8 @@ theorem rupert : IsRupert cube := by
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [Fin.isValue, extract, cons_val_one, cons_val_zero, cons_val_fin_one,
-      inject, and_true]
-    refine ⟨⟨ ?_, ?_⟩, ?_, ?_⟩
+    simp only [Fin.isValue, extract, inject]
+    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube2.1
     · exact rpp_contains_cube.1
     · exact rnn_contains_cube.2
@@ -494,8 +492,8 @@ theorem rupert : IsRupert cube := by
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
-      cons_val_fin_one, inject, and_true]
-    refine ⟨⟨ ?_, ?_⟩, ?_, ?_⟩
+      inject]
+    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube.1
     · exact rpp_contains_cube2.1
     · exact rnn_contains_cube.2
@@ -506,8 +504,8 @@ theorem rupert : IsRupert cube := by
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
-      cons_val_fin_one, inject, and_true]
-    refine ⟨⟨ ?_, ?_⟩, ?_, ?_⟩
+      inject]
+    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube.1
     · exact rpp_contains_cube2.1
     · exact rnn_contains_cube2.2
