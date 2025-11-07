@@ -11,10 +11,10 @@ namespace Tetrahedron
 open scoped Matrix
 
 def vertices : Fin 4 → ℝ³ :=
-  ![![ 1,  1,  1],
-    ![ 1, -1, -1],
-    ![-1,  1, -1],
-    ![-1, -1,  1]]
+  ![!₂[ 1,  1,  1],
+    !₂[ 1, -1, -1],
+    !₂[-1,  1, -1],
+    !₂[-1, -1,  1]]
 
 def outer_quat : Quaternion ℝ := ⟨0.338990, -0.426182, 0.173602, -0.820558⟩
 
@@ -32,7 +32,7 @@ lemma inner_rot_so3 : inner_rot ∈ SO3 := by
   have h : inner_quat.normSq ≠ 0 := by norm_num [inner_quat, Quaternion.normSq_def]
   exact matrix_of_quat_is_s03 h
 
-def inner_offset : ℝ² := ![0.098412,-0.165800]
+def inner_offset : ℝ² := !₂[0.098412,-0.165800]
 
 theorem rupert : IsRupert vertices := by
   rw [rupert_iff_rupert']
