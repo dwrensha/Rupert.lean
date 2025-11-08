@@ -9,20 +9,20 @@ namespace Cube
 open Matrix
 
 def cube : Fin 8 → ℝ³ := ![
-  ![ 1,  1,  1],
-  ![ 1, -1,  1],
-  ![-1, -1,  1],
-  ![-1,  1,  1],
-  ![ 1,  1, -1],
-  ![ 1, -1, -1],
-  ![-1, -1, -1],
-  ![-1,  1, -1]]
+  !₂[ 1,  1,  1],
+  !₂[ 1, -1,  1],
+  !₂[-1, -1,  1],
+  !₂[-1,  1,  1],
+  !₂[ 1,  1, -1],
+  !₂[ 1, -1, -1],
+  !₂[-1, -1, -1],
+  !₂[-1,  1, -1]]
 
 noncomputable
 abbrev outer_rot_denorm : Matrix (Fin 3) (Fin 3) ℝ :=
-   !![ 0,  -√3, √3;
-       2,   -1, -1;
-      √2,   √2, √2]
+   !![ 0, -√3, √3;
+       2,  -1, -1;
+      √2,  √2, √2]
 
 noncomputable
 abbrev outer_rot : Matrix (Fin 3) (Fin 3) ℝ :=
@@ -85,14 +85,14 @@ def outer_shadow_denorm : Set ℝ² :=  {x | ∃ i, proj_xy (outer_rot_denorm *�
 
 noncomputable
 def outer_shadow_points_denorm : Fin 8 → ℝ² := ![
-  ![  0,       0 ],
-  ![ √3 * 2,   2 ],
-  ![ √3 * 2,  -2 ],
-  ![  0,      -4 ],
-  ![-√3 * 2,   2 ],
-  ![  0,       4 ],
-  ![  0,       0 ],
-  ![-√3 * 2,  -2 ]]
+  !₂[  0,      0 ],
+  !₂[ √3 * 2,  2 ],
+  !₂[ √3 * 2, -2 ],
+  !₂[  0,     -4 ],
+  !₂[-√3 * 2,  2 ],
+  !₂[  0,      4 ],
+  !₂[  0,      0 ],
+  !₂[-√3 * 2, -2 ]]
 
 lemma outer_shadow_points_in_shadow : ∀ (i : Fin 8), (1/√6) • (outer_shadow_points_denorm i) ∈ outer_shadow := by
   intro i
@@ -108,16 +108,10 @@ lemma outer_shadow_points_in_shadow : ∀ (i : Fin 8), (1/√6) • (outer_shado
   unfold outer_shadow_denorm
   rw [Set.mem_setOf_eq]
   use i
-  fin_cases i <;>
-  · simp only [cons_mulVec, cons_dotProduct, zero_mul, neg_mul, dotProduct_of_isEmpty,
-    add_zero, zero_add, one_mul, empty_mulVec, outer_shadow_points_denorm, Fin.zero_eta,
-    Fin.isValue, cons_val_zero]
-    simp only [Fin.reduceFinMk, cons_val, cube, head_cons, proj_xy, tail_cons,
-                mul_neg, mul_one, neg_neg, add_neg_cancel, add_zero]
-    ext i
-    fin_cases i
-    · simp [mul_two]
-    · norm_num
+  --simp only [cons_mulVec, cons_dotProduct, zero_mul, neg_mul, dotProduct_of_isEmpty,
+  --  add_zero, zero_add, one_mul, empty_mulVec, outer_shadow_points_denorm,
+   -- Fin.isValue, cons_val_zero, matrix_simps, cube, proj_xy]
+  fin_cases i <;> simp [matrix_simps, cube, proj_xy, outer_shadow_points_denorm, mul_two] <;> norm_num
 
 ---------------------------------------------------------------------------------
 -- ++
@@ -145,7 +139,8 @@ theorem rpp_contains_cube : 1 < rpp 0 ∧ 1 < rpp 1 := by
  dsimp only [rpp, outer_shadow_points_denorm, Matrix.cons_val,
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor <;>
- · apply lt_of_mul_self_lt_mul_self₀ (by positivity)
+ · dsimp
+   apply lt_of_mul_self_lt_mul_self₀ (by positivity)
    ring_nf
    norm_num
 
@@ -154,8 +149,10 @@ theorem rpp_contains_cube2 :-1 < rpp 0 ∧ -1 < rpp 1 := by
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor
  · have : 0 < 3 / 4 * (1 / √6 * (√3 * 2)) + 1 / 4 * (1 / √6 * 0) + 1 := by positivity
+   dsimp
    linarith
  · have : 0 < 3 / 4 * (1 / √6 * 2) + 1 / 4 * (1 / √6 * 4) + 1 := by positivity
+   dsimp
    linarith
 
 
@@ -229,7 +226,8 @@ theorem rnn_contains_cube : -1 > rnn 0 ∧ -1 > rnn 1 := by
  dsimp only [rnn, outer_shadow_points_denorm, Matrix.cons_val,
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor <;>
- · apply neg_lt_neg_iff.mp
+ · dsimp
+   apply neg_lt_neg_iff.mp
    simp only [neg_neg, neg_mul, mul_neg, mul_zero, add_zero, neg_add_rev]
    apply lt_of_mul_self_lt_mul_self₀ (by positivity)
    ring_nf
@@ -240,8 +238,10 @@ theorem rnn_contains_cube2 : rnn 0 < 1 ∧ rnn 1 < 1 := by
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor
  · have : 0 < 3 / 4 * (1 / √6 * (√3 * 2)) + 1 / 4 * (1 / √6 * 0) + 1 := by positivity
+   dsimp
    linarith
  · have : 0 < 3 / 4 * (1 / √6 * 2) + 1 / 4 * (1 / √6 * 4) + 1 := by positivity
+   dsimp
    linarith
 
 ---------------------------------------------------------------------------------
@@ -356,13 +356,13 @@ def open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
 
 lemma nontrivial_rectangle0 : rnn 0 < rpp 0 := by
   simp only [rnn, rpp, outer_shadow_points_denorm, neg_mul, cons_val, PiLp.add_apply, PiLp.smul_apply,
-    smul_eq_mul, mul_neg, mul_zero, add_zero, neg_lt_self_iff]
+    smul_eq_mul, mul_neg, mul_zero, add_zero, neg_lt_self_iff, PiLp.toLp_apply]
   positivity
 
 lemma nontrivial_rectangle1 : rnn 1 < rpp 1 := by
   simp only [rnn, rpp, outer_shadow_points_denorm]
   simp only [one_div, neg_mul, Fin.isValue, cons_val, PiLp.add_apply, PiLp.smul_apply, cons_val_one,
-    cons_val_fin_one, smul_eq_mul, mul_neg, cons_val_zero, add_neg_lt_iff_lt_add]
+    smul_eq_mul, cons_val_zero]
   field_simp
   norm_num
 
@@ -373,19 +373,22 @@ lemma rect_fact1 : ![rpp 0, rnn 1] = rpn := by
   have coord0 : rpp 0 = rpn 0 := by
     simp only [Fin.isValue, rpp, one_div, outer_shadow_points_denorm, neg_mul, cons_val_one,
       cons_val_zero, cons_val, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul, mul_zero, add_zero,
-      rpn]
+      rpn, PiLp.toLp_apply]
   have coord1 : rnn 1 = rpn 1 := by
     simp only [Fin.isValue, rnn, one_div, outer_shadow_points_denorm, neg_mul, cons_val,
-      PiLp.add_apply, PiLp.smul_apply, cons_val_one, cons_val_fin_one, smul_eq_mul, mul_neg, rpn]
+      PiLp.add_apply, PiLp.smul_apply, cons_val_one, cons_val_fin_one, smul_eq_mul, mul_neg, rpn,
+      PiLp.toLp_apply]
   rw [← vector_ext rpn, coord0, coord1]
 
 lemma rect_fact2 : ![rnn 0, rpp 1] = rnp := by
   have coord0 : rnn 0 = rnp 0 := by
     simp only [Fin.isValue, rnn, one_div, outer_shadow_points_denorm, neg_mul, cons_val,
-      PiLp.add_apply, PiLp.smul_apply, cons_val_zero, smul_eq_mul, mul_neg, mul_zero, add_zero, rnp]
+      PiLp.add_apply, PiLp.smul_apply, cons_val_zero, smul_eq_mul, mul_neg, mul_zero, add_zero,
+      rnp, PiLp.toLp_apply]
   have coord1 : rpp 1 = rnp 1 := by
     simp only [Fin.isValue, rpp, one_div, outer_shadow_points_denorm, neg_mul, cons_val,
-      PiLp.add_apply, PiLp.smul_apply, cons_val_one, cons_val_fin_one, smul_eq_mul, rnp]
+      PiLp.add_apply, PiLp.smul_apply, cons_val_one, cons_val_fin_one, smul_eq_mul, rnp,
+      PiLp.toLp_apply]
   rw [← vector_ext rnp, coord0, coord1]
 
 lemma mediant_sub_hull_outer : Set.range (rect_vertices (rnn 0) (rpp 0) (rnn 1) (rpp 1)) ⊆ convexHull ℝ outer_shadow := by
@@ -419,7 +422,7 @@ theorem rupert : IsRupert cube := by
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.zero_eta, cons_val_zero, cons_val_one, cons_val_fin_one,
       inject]
-    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_,⟩, rfl⟩
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_,⟩, rfl⟩
     · exact rnn_contains_cube2.1
     · exact rpp_contains_cube.1
     · exact rnn_contains_cube2.2
@@ -432,7 +435,7 @@ theorem rupert : IsRupert cube := by
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.mk_one, cons_val_one, cons_val_zero, cons_val_fin_one,
       inject]
-    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube2.1
     · exact rpp_contains_cube.1
     · exact rnn_contains_cube.2
@@ -444,7 +447,7 @@ theorem rupert : IsRupert cube := by
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
       cons_val_fin_one, inject]
-    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube.1
     · exact rpp_contains_cube2.1
     · exact rnn_contains_cube.2
@@ -454,9 +457,8 @@ theorem rupert : IsRupert cube := by
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
-               inject]
-    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
+    simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube.1
     · exact rpp_contains_cube2.1
     · exact rnn_contains_cube2.2
@@ -468,7 +470,7 @@ theorem rupert : IsRupert cube := by
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, inject]
-    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube2.1
     · exact rpp_contains_cube.1
     · exact rnn_contains_cube2.2
@@ -481,7 +483,7 @@ theorem rupert : IsRupert cube := by
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, inject]
-    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube2.1
     · exact rpp_contains_cube.1
     · exact rnn_contains_cube.2
@@ -491,9 +493,8 @@ theorem rupert : IsRupert cube := by
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
-      inject]
-    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
+    simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube.1
     · exact rpp_contains_cube2.1
     · exact rnn_contains_cube.2
@@ -503,9 +504,8 @@ theorem rupert : IsRupert cube := by
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
-      inject]
-    refine ⟨⟨⟨ ?_, ?_⟩, ?_, ?_⟩, rfl⟩
+    simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · exact rnn_contains_cube.1
     · exact rpp_contains_cube2.1
     · exact rnn_contains_cube2.2
