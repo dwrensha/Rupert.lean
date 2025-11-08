@@ -10,7 +10,7 @@ open Real
 /--
 A square in the xy-plane, centered at the origin and with side length 2.
 -/
-abbrev vertices : Fin 4 → ℝ³ := ![ ![-1, -1, 0], ![1, -1, 0], ![-1, 1, 0], ![1, 1, 0] ]
+abbrev vertices : Fin 4 → ℝ³ := ![ !₂[-1, -1, 0], !₂[1, -1, 0], !₂[-1, 1, 0], !₂[1, 1, 0] ]
 
 /-- square root of one-half -/
 noncomputable def rh : ℝ := √2/2
@@ -91,7 +91,7 @@ by π/4 radians. No offset translation is needed.
    use Fin 4, inferInstance
    use ![1/4 + v 0 / (2 * √2), 1/4 - v 0 / (2*√2),
          1/4 + v 1 / (2 * √2), 1/4 - v 1 / (2 * √2)]
-   use ![![√2, 0],![-√2, 0], ![0, √2],![0, -√2]]
+   use ![!₂[√2, 0], !₂[-√2, 0], !₂[0, √2], !₂[0, -√2]]
    obtain ⟨h2', h0'⟩ := abs_le.mp (Real.norm_eq_abs _ ▸ (PiLp.norm_apply_le v 0))
    obtain ⟨h4', h3'⟩ := abs_le.mp (Real.norm_eq_abs _ ▸ (PiLp.norm_apply_le v 1))
    refine ⟨?_, ?_, ?_, ?_⟩
@@ -132,15 +132,14 @@ by π/4 radians. No offset translation is needed.
    · intro i
      fin_cases i
      · simp [outer_shadow, proj_xy, rh]
-       use 3; simp; rfl
+       use 3; simp [vecHead, vecTail]
      · simp [outer_shadow, proj_xy, rh]
-       use 0; simp
+       use 0; simp [vecHead, vecTail]
        ring_nf
-       rfl
      · simp [outer_shadow, proj_xy, rh]
-       use 2; simp; rfl
+       use 2; simp [vecHead, vecTail]
      · simp [outer_shadow, proj_xy, rh]
-       use 1; simp[neg_div']; ring_nf; rfl
+       use 1; simp [neg_div', vecHead, vecTail]; ring_nf
    · rw [Fin.sum_univ_four]
      ext i
      fin_cases i <;> (simp; grind)
@@ -180,7 +179,7 @@ by π/4 radians. No offset translation is needed.
        use ![√2, 0]
        constructor
        · rw [Set.mem_setOf]
-         use 3; simp; rfl
+         use 3; simp [vecHead, vecTail]; rfl
        · ext i
          fin_cases i <;> simp
      · simp only [proj_xy, mulVec, outer_rot, rh, Fin.isValue, of_apply, cons_val',
@@ -190,7 +189,7 @@ by π/4 radians. No offset translation is needed.
        constructor
        · rw [Set.mem_setOf]
          use 0
-         simp
+         simp [vecHead, vecTail]
          ring_nf
          rfl
        · ext i; fin_cases i
@@ -228,7 +227,7 @@ by π/4 radians. No offset translation is needed.
          neg_mul, one_mul, zero_add, empty_mulVec, cons_val_zero, cons_val_one, neg_sub, Fin.zero_eta, Set.mem_image]
        use ![√2, 0]
        constructor
-       · use 3; simp; rfl
+       · use 3; simp [vecHead, vecTail]; rfl
        · ext i
          fin_cases i <;> simp
      · simp only [proj_xy, mulVec, outer_rot, rh, Fin.isValue, of_apply, cons_val',
@@ -236,7 +235,7 @@ by π/4 radians. No offset translation is needed.
         cons_val_one, neg_mul, neg_sub, Fin.mk_one, Set.mem_image, outer_shadow]
        use ![-√2, 0]
        constructor
-       · use 0; simp; ring_nf; rfl
+       · use 0; simp [vecHead, vecTail]; ring_nf; rfl
        · ext i; fin_cases i
          · norm_num
          · simp
@@ -251,7 +250,7 @@ by π/4 radians. No offset translation is needed.
  obtain ⟨y, proj_rot_y_eq_x⟩ := hx
  rw [← proj_rot_y_eq_x]; unfold inner_offset; simp;
  fin_cases y
- all_goals (simp [proj_xy])
+ all_goals (simp [proj_xy, vecHead, vecTail])
  · exact negx_in_outer
  · exact posx_in_outer
  · exact negx_in_outer
