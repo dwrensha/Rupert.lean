@@ -260,10 +260,8 @@ def closed_rectangle_is_convex_hull (xmin xmax ymin ymax : ℝ) (xlt : xmin < xm
   let prodset : Set (ℝ × ℝ) := {xmin, xmax} ×ˢ {ymin, ymax}
   have lemma1 (S : Set (ℝ × ℝ)):  inject '' (convexHull ℝ S) = convexHull ℝ (inject '' S) := by
     apply IsLinearMap.image_convexHull
-    -- TODO simpler proof here?
-    constructor <;> intro v w
-    · ext i; fin_cases i <;> norm_num [Pi.add_apply, add_assoc, add_comm, add_left_comm]
-    · ext i; fin_cases i <;> simp
+    let m₂ := (PiLp.continuousLinearEquiv 2 ℝ (ι := Fin 2) (β := fun _ ↦ ℝ)).toLinearEquiv
+    exact ((LinearEquiv.finTwoArrow ℝ ℝ).symm.trans m₂.symm).isLinear
   have lemma2 : Set.range (rect_vertices xmin xmax ymin ymax) = inject '' prodset := by
     ext p; constructor
     · intro ⟨w, e⟩ ;
