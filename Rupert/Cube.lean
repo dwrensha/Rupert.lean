@@ -249,8 +249,8 @@ def extract (v : ℝ²) : ℝ × ℝ := ⟨v 0, v 1⟩
 @[simp]
 def inject (v : ℝ × ℝ) : ℝ² := !₂[v.1, v.2]
 
-def open_rectangle (xmin xmax ymin ymax : ℝ) : Set ℝ² := inject '' (Set.prod (Set.Ioo xmin xmax) (Set.Ioo ymin ymax))
-def closed_rectangle (xmin xmax ymin ymax : ℝ) : Set ℝ² := inject '' (Set.prod (Set.Icc xmin xmax) (Set.Icc ymin ymax))
+def open_rectangle (xmin xmax ymin ymax : ℝ) : Set ℝ² := inject '' (Set.Ioo xmin xmax ×ˢ Set.Ioo ymin ymax)
+def closed_rectangle (xmin xmax ymin ymax : ℝ) : Set ℝ² := inject '' (Set.Icc xmin xmax ×ˢ Set.Icc ymin ymax)
 def rect_vertices (xmin xmax ymin ymax : ℝ) : Fin 4 → ℝ² := ![!₂[xmin,ymin], !₂[xmax,ymin], !₂[xmin,ymax], !₂[xmax,ymax]]
 
 def closed_rectangle_is_convex_hull (xmin xmax ymin ymax : ℝ) (xlt : xmin < xmax) (ylt : ymin < ymax) :
@@ -346,19 +346,8 @@ def open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
        subst pext
        simp_all only [inject, and_self]
 
-  rw [transfer_int]
-  let xint := Set.Icc xmin xmax
-  let yint := Set.Icc ymin ymax
+  rw [transfer_int, interior_prod_eq, interior_Icc, interior_Icc]
 
-  -- FIXME: I don't know why I can't simply `apply interior_prod_eq` here, instead of have : ... rw [this].
-  have : interior (xint.prod yint) = (interior xint) ×ˢ (interior yint) :=
-      interior_prod_eq xint yint
-  rw [this]
-  --
-
-  congr!
-  · simp only [interior_Icc, xint]
-  · simp only [interior_Icc, yint]
 
 lemma nontrivial_rectangle0 : rnn 0 < rpp 0 := by
   simp only [rnn, rpp, outer_shadow_points_denorm, neg_mul, cons_val, PiLp.add_apply, PiLp.smul_apply,
@@ -423,7 +412,7 @@ theorem rupert : IsRupert cube := by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
-    simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
+    simp only [proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.zero_eta, cons_val_zero, cons_val_one, cons_val_fin_one, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_,⟩, ⟨⟩⟩
     · simp [rnn_contains_cube2.1]
@@ -435,7 +424,7 @@ theorem rupert : IsRupert cube := by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
-    simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
+    simp only [proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.mk_one, cons_val_one, cons_val_zero, cons_val_fin_one, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
     · simp [rnn_contains_cube2.1]
@@ -446,7 +435,7 @@ theorem rupert : IsRupert cube := by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
-    simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
+    simp only [proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
       cons_val_fin_one, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
@@ -458,7 +447,7 @@ theorem rupert : IsRupert cube := by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
-    simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
+    simp only [proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
     · simp [rnn_contains_cube.1]
@@ -470,7 +459,7 @@ theorem rupert : IsRupert cube := by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
-    simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
+    simp only [proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · simp [rnn_contains_cube2.1]
@@ -483,7 +472,7 @@ theorem rupert : IsRupert cube := by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
-    simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
+    simp only [proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
     · simp [rnn_contains_cube2.1]
@@ -494,7 +483,7 @@ theorem rupert : IsRupert cube := by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
-    simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
+    simp only [proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
     · simp [rnn_contains_cube.1]
@@ -505,7 +494,7 @@ theorem rupert : IsRupert cube := by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
-    simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
+    simp only [proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
     · simp [rnn_contains_cube.1]
