@@ -76,8 +76,7 @@ lemma outer_rot_so3 : outer_rot ∈ SO3 := by
    suffices h : (r * r * 6) * (√3 * √2) * r = 1 by (ring_nf at h; exact h)
    simp only [h2]
    rw [two_three_six]
-   change 1 * √6 * (√6)⁻¹ = 1
-   field_simp
+   grind
 
 def outer_shadow : Set ℝ² :=  {x | ∃ i, proj_xy (outer_rot.toEuclideanLin (cube i)) = x}
 
@@ -152,9 +151,9 @@ theorem rpp_contains_cube2 :-1 < rpp 0 ∧ -1 < rpp 1 := by
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor
  · have : 0 < 3 / 4 * (1 / √6 * (√3 * 2)) + 1 / 4 * (1 / √6 * 0) + 1 := by positivity
-   linarith
+   grind
  · have : 0 < 3 / 4 * (1 / √6 * 2) + 1 / 4 * (1 / √6 * 4) + 1 := by positivity
-   linarith
+   grind
 
 
 ---------------------------------------------------------------------------------

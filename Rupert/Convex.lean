@@ -149,9 +149,5 @@ lemma ball_in_hull_of_corners_in_hull {X : Set (E 2)} {ε : ℝ} (hε : ε ∈ S
     simp only [mul_sub, sub_mul, sub_smul, cx, cy, one_mul, mul_one]
     ext i
     fin_cases i
-    · simp
-      field_simp
-      ring_nf
-    · simp
-      field_simp
-      ring_nf
+    · simp; field
+    · simp; field

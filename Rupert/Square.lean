@@ -161,8 +161,8 @@ by π/4 radians. No offset translation is needed.
    · intro i; fin_cases i
      · simp [ε₁]
        have h1 : 0 ≤ 2 * (1 - 1e-3) * √2 := by positivity
-       suffices H : (0:ℝ) ≤ ((1 - 1e-3) * √2 - 1) from div_nonneg H h1
-       suffices H : (1:ℝ) ≤ (1 - 1e-3) * √2 by linarith only [H]
+       suffices H : (0:ℝ) ≤ (1 - 1e-3) * √2 - 1 from div_nonneg H h1
+       suffices H : (1:ℝ) ≤ (1 - 1e-3) * √2 from sub_nonneg_of_le H
        refine (sq_le_sq₀ zero_le_one (by positivity)).mp ?_
        rw [mul_pow, Real.sq_sqrt zero_le_two]
        norm_num
@@ -194,7 +194,7 @@ by π/4 radians. No offset translation is needed.
          · simp
    · ext i
      fin_cases i
-     · simp; field_simp; ring
+     · simp; field
      · simp
  have posx_in_outer : !₂[1, 0] ∈ interior (convexHull ℝ outer_shadow) := by
    apply Convex.mem_interior_hull hε₀0 hε₁ zero_in_outer
@@ -211,12 +211,12 @@ by π/4 radians. No offset translation is needed.
        positivity
      · simp [ε₁]
        have h1 : 0 ≤ 2 * (1 - 1e-3) * √2 := by positivity
-       suffices H : (0:ℝ) ≤ ((1 - 1e-3) * √2 - 1) from div_nonneg H h1
-       suffices H : (1:ℝ) ≤ (1 - 1e-3) * √2 by linarith only [H]
+       suffices H : (0:ℝ) ≤ (1 - 1e-3) * √2 - 1 from div_nonneg H h1
+       suffices H : (1:ℝ) ≤ (1 - 1e-3) * √2 from sub_nonneg_of_le H
        refine (sq_le_sq₀ zero_le_one (by positivity)).mp ?_
        rw [mul_pow, Real.sq_sqrt zero_le_two]
        norm_num
-   · simp; field_simp; ring
+   · simp; field
    · intro i
      fin_cases i
      · unfold outer_shadow proj_xy outer_rot rh
@@ -236,7 +236,7 @@ by π/4 radians. No offset translation is needed.
          · simp
    · ext i
      fin_cases i
-     · simp; field_simp; ring
+     · simp; field
      · simp
 
  -- we have y ∈ ℝ³ that came from the square, which after being rotated by
