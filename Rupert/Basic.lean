@@ -17,14 +17,14 @@ def proj_xy {k : Type} (v : EuclideanSpace k (Fin 3)) : EuclideanSpace k (Fin 2)
 def IsRupert {ι : Type} [Fintype ι] (vertices : ι → ℝ³) : Prop :=
    ∃ inner_rotation ∈ SO3, ∃ inner_offset : ℝ², ∃ outer_rotation ∈ SO3,
    let hull := convexHull ℝ { vertices i | i }
-   let inner_shadow := { inner_offset + proj_xy (inner_rotation *ᵥ p) | p ∈ hull }
-   let outer_shadow := { proj_xy (outer_rotation *ᵥ p) | p ∈ hull }
+   let inner_shadow := { inner_offset + proj_xy (inner_rotation.toEuclideanLin p) | p ∈ hull }
+   let outer_shadow := { proj_xy (outer_rotation.toEuclideanLin p) | p ∈ hull }
    inner_shadow ⊆ interior outer_shadow
 
 /-- Alternate formulation of the Rupert Property. This is equivalent to IsRupert and
     should be easier to prove. -/
 def IsRupert' {ι : Type} [Fintype ι] (vertices : ι → ℝ³) : Prop :=
    ∃ inner_rotation ∈ SO3, ∃ inner_offset : ℝ², ∃ outer_rotation ∈ SO3,
-   let inner_shadow := { inner_offset + proj_xy (inner_rotation *ᵥ vertices i) | i }
-   let outer_shadow := { proj_xy (outer_rotation *ᵥ vertices i) | i }
+   let inner_shadow := { inner_offset + proj_xy (inner_rotation.toEuclideanLin (vertices i)) | i }
+   let outer_shadow := { proj_xy (outer_rotation.toEuclideanLin (vertices i)) | i }
    inner_shadow ⊆ interior (convexHull ℝ outer_shadow)

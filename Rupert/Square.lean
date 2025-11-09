@@ -148,7 +148,7 @@ by π/4 radians. No offset translation is needed.
  let ε₁ : ℝ := 0.001
  have hε₁ : ε₁ ∈ Set.Ioo 0 1 := by norm_num
 
- have negx_in_outer : ![-1, 0] ∈ interior (convexHull ℝ outer_shadow) := by
+ have negx_in_outer : !₂[-1, 0] ∈ interior (convexHull ℝ outer_shadow) := by
    apply Convex.mem_interior_hull hε₀0 hε₁ zero_in_outer
    rw [mem_convexHull_iff_exists_fintype]
    -- we need to write (-1,0) as a convex combination of
@@ -156,7 +156,7 @@ by π/4 radians. No offset translation is needed.
    use Fin 2, inferInstance
    use ![((1-ε₁)* √2 - 1) / (2 * (1 - ε₁) * √2),
          ((1-ε₁)* √2 + 1) /(2 * (1 - ε₁) * √2)]
-   use ![![(1-ε₁) * √2, 0], ![-(1-ε₁) * √2, 0]]
+   use ![!₂[(1-ε₁) * √2, 0], !₂[-(1-ε₁) * √2, 0]]
    refine ⟨?_, ?_, ?_, ?_⟩
    · intro i; fin_cases i
      · simp [ε₁]
@@ -174,24 +174,21 @@ by π/4 radians. No offset translation is needed.
    · intro i
      fin_cases i
      · unfold outer_shadow proj_xy outer_rot rh
-       simp only [Fin.isValue, cons_mulVec, cons_dotProduct, zero_mul, dotProduct_of_isEmpty, add_zero,
-         neg_mul, one_mul, zero_add, empty_mulVec, cons_val_zero, cons_val_one, neg_sub, Fin.zero_eta, Set.mem_image]
-       use ![√2, 0]
+       simp only [Fin.isValue, cons_val_zero, neg_sub, Fin.zero_eta, Set.mem_image]
+       use !₂[√2, 0]
        constructor
        · rw [Set.mem_setOf]
-         use 3; simp [vecHead, vecTail]; rfl
+         use 3; simp [vecHead, vecTail]
        · ext i
          fin_cases i <;> simp
-     · simp only [proj_xy, mulVec, outer_rot, rh, Fin.isValue, of_apply, cons_val',
-        cons_val_fin_one, cons_val_zero, cons_dotProduct, zero_mul, dotProduct_of_isEmpty, add_zero,
-        cons_val_one, neg_mul, neg_sub, Fin.mk_one, Set.mem_image, outer_shadow]
-       use ![-√2, 0]
+     · simp only [proj_xy, outer_rot, rh, Fin.isValue, cons_val_fin_one,
+        cons_val_one, neg_sub, Fin.mk_one, Set.mem_image, outer_shadow]
+       use !₂[-√2, 0]
        constructor
        · rw [Set.mem_setOf]
          use 0
          simp [vecHead, vecTail]
          ring_nf
-         rfl
        · ext i; fin_cases i
          · simp; ring
          · simp
@@ -199,7 +196,7 @@ by π/4 radians. No offset translation is needed.
      fin_cases i
      · simp; field_simp; ring
      · simp
- have posx_in_outer : ![1, 0] ∈ interior (convexHull ℝ outer_shadow) := by
+ have posx_in_outer : !₂[1, 0] ∈ interior (convexHull ℝ outer_shadow) := by
    apply Convex.mem_interior_hull hε₀0 hε₁ zero_in_outer
    rw [mem_convexHull_iff_exists_fintype]
    -- we need to write (1,0) as a convex combination of
@@ -207,7 +204,7 @@ by π/4 radians. No offset translation is needed.
    use Fin 2, inferInstance
    use ![((1-ε₁)* √2 + 1) / (2 * (1 - ε₁) * √2),
          ((1-ε₁)* √2 - 1) /(2 * (1 - ε₁) * √2)]
-   use ![![(1-ε₁) * √2, 0], ![-(1-ε₁) * √2, 0]]
+   use ![!₂[(1-ε₁) * √2, 0], !₂[-(1-ε₁) * √2, 0]]
    refine ⟨?_, ?_, ?_, ?_⟩
    · intro i; fin_cases i
      · simp [ε₁]
@@ -223,19 +220,17 @@ by π/4 radians. No offset translation is needed.
    · intro i
      fin_cases i
      · unfold outer_shadow proj_xy outer_rot rh
-       simp only [Fin.isValue, cons_mulVec, cons_dotProduct, zero_mul, dotProduct_of_isEmpty, add_zero,
-         neg_mul, one_mul, zero_add, empty_mulVec, cons_val_zero, cons_val_one, neg_sub, Fin.zero_eta, Set.mem_image]
-       use ![√2, 0]
+       simp only [Fin.isValue, cons_val_zero, neg_sub, Fin.zero_eta, Set.mem_image]
+       use !₂[√2, 0]
        constructor
-       · use 3; simp [vecHead, vecTail]; rfl
+       · use 3; simp [vecHead, vecTail]
        · ext i
          fin_cases i <;> simp
-     · simp only [proj_xy, mulVec, outer_rot, rh, Fin.isValue, of_apply, cons_val',
-        cons_val_fin_one, cons_val_zero, cons_dotProduct, zero_mul, dotProduct_of_isEmpty, add_zero,
-        cons_val_one, neg_mul, neg_sub, Fin.mk_one, Set.mem_image, outer_shadow]
-       use ![-√2, 0]
+     · simp only [proj_xy,outer_rot, rh, Fin.isValue,
+        cons_val_fin_one, cons_val_one, neg_sub, Fin.mk_one, Set.mem_image, outer_shadow]
+       use !₂[-√2, 0]
        constructor
-       · use 0; simp [vecHead, vecTail]; ring_nf; rfl
+       · use 0; simp; ring_nf
        · ext i; fin_cases i
          · norm_num
          · simp

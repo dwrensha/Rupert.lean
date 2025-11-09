@@ -18,7 +18,7 @@ def proj_xy_linear : ℝ³ →ₗ[ℝ] ℝ² :=
    }
 
 noncomputable
-def rotation_affine (rot : SO3) : ℝ³ →ᵃ[ℝ] ℝ³ := (Matrix.mulVecLin rot).toAffineMap
+def rotation_affine (rot : SO3) : ℝ³ →ᵃ[ℝ] ℝ³ := (Matrix.toEuclideanLin rot).toAffineMap
 
 /-- Translating is affine. -/
 noncomputable

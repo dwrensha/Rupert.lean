@@ -79,9 +79,9 @@ lemma outer_rot_so3 : outer_rot ∈ SO3 := by
    change 1 * √6 * (√6)⁻¹ = 1
    field_simp
 
-def outer_shadow : Set ℝ² :=  {x | ∃ i, proj_xy (outer_rot *ᵥ cube i) = x}
+def outer_shadow : Set ℝ² :=  {x | ∃ i, proj_xy (outer_rot.toEuclideanLin (cube i)) = x}
 
-def outer_shadow_denorm : Set ℝ² :=  {x | ∃ i, proj_xy (outer_rot_denorm *ᵥ cube i) = x}
+def outer_shadow_denorm : Set ℝ² :=  {x | ∃ i, proj_xy (outer_rot_denorm.toEuclideanLin (cube i)) = x}
 
 noncomputable
 def outer_shadow_points_denorm : Fin 8 → ℝ² := ![
@@ -102,15 +102,18 @@ lemma outer_shadow_points_in_shadow : ∀ (i : Fin 8), (1/√6) • (outer_shado
     use w
     rw [← hw]
     change _ = _ • proj_xy_linear _
-    simp only [ ← proj_xy_linear.map_smul, smul_mulVec]
-    rfl
+    simp only [ ← proj_xy_linear.map_smul]
+    fin_cases w <;>
+    simp [matrix_simps, proj_xy, one_div, smul_of, smul_cons, smul_eq_mul, mul_zero, mul_neg, smul_empty,
+      mul_one, cube, Fin.isValue, toLin'_apply,
+      vecHead, vecTail, Nat.succ_eq_add_one, Nat.reduceAdd,
+      Function.comp_apply, Fin.succ_zero_eq_one, Fin.succ_one_eq_two,
+      add_zero, zero_add, cons_val_zero, cons_val_one,
+      proj_xy_linear, LinearMap.coe_mk, AddHom.coe_mk]
   apply xfer
   unfold outer_shadow_denorm
   rw [Set.mem_setOf_eq]
   use i
-  --simp only [cons_mulVec, cons_dotProduct, zero_mul, neg_mul, dotProduct_of_isEmpty,
-  --  add_zero, zero_add, one_mul, empty_mulVec, outer_shadow_points_denorm,
-   -- Fin.isValue, cons_val_zero, matrix_simps, cube, proj_xy]
   fin_cases i <;> simp [matrix_simps, cube, proj_xy, outer_shadow_points_denorm, mul_two] <;> norm_num
 
 ---------------------------------------------------------------------------------
@@ -149,10 +152,8 @@ theorem rpp_contains_cube2 :-1 < rpp 0 ∧ -1 < rpp 1 := by
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor
  · have : 0 < 3 / 4 * (1 / √6 * (√3 * 2)) + 1 / 4 * (1 / √6 * 0) + 1 := by positivity
-   dsimp
    linarith
  · have : 0 < 3 / 4 * (1 / √6 * 2) + 1 / 4 * (1 / √6 * 4) + 1 := by positivity
-   dsimp
    linarith
 
 
@@ -238,10 +239,8 @@ theorem rnn_contains_cube2 : rnn 0 < 1 ∧ rnn 1 < 1 := by
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor
  · have : 0 < 3 / 4 * (1 / √6 * (√3 * 2)) + 1 / 4 * (1 / √6 * 0) + 1 := by positivity
-   dsimp
    linarith
  · have : 0 < 3 / 4 * (1 / √6 * 2) + 1 / 4 * (1 / √6 * 4) + 1 := by positivity
-   dsimp
    linarith
 
 ---------------------------------------------------------------------------------
@@ -249,18 +248,22 @@ theorem rnn_contains_cube2 : rnn 0 < 1 ∧ rnn 1 < 1 := by
 @[simp]
 def extract (v : ℝ²) : ℝ × ℝ := ⟨v 0, v 1⟩
 @[simp]
-def inject (v : ℝ × ℝ) : ℝ² := ![v.1, v.2]
+def inject (v : ℝ × ℝ) : ℝ² := !₂[v.1, v.2]
 
 def open_rectangle (xmin xmax ymin ymax : ℝ) : Set ℝ² := inject '' (Set.prod (Set.Ioo xmin xmax) (Set.Ioo ymin ymax))
 def closed_rectangle (xmin xmax ymin ymax : ℝ) : Set ℝ² := inject '' (Set.prod (Set.Icc xmin xmax) (Set.Icc ymin ymax))
-def rect_vertices (xmin xmax ymin ymax : ℝ) : Fin 4 → ℝ² := ![![xmin,ymin], ![xmax,ymin], ![xmin,ymax], ![xmax,ymax]]
+def rect_vertices (xmin xmax ymin ymax : ℝ) : Fin 4 → ℝ² := ![!₂[xmin,ymin], !₂[xmax,ymin], !₂[xmin,ymax], !₂[xmax,ymax]]
 
 def closed_rectangle_is_convex_hull (xmin xmax ymin ymax : ℝ) (xlt : xmin < xmax) (ylt : ymin < ymax) :
     closed_rectangle xmin xmax ymin ymax
     = convexHull ℝ (Set.range (rect_vertices xmin xmax ymin ymax)) := by
   let prodset : Set (ℝ × ℝ) := {xmin, xmax} ×ˢ {ymin, ymax}
-  have lemma1 (S : Set (ℝ × ℝ)):  inject '' (convexHull ℝ S) = convexHull ℝ (inject '' S)  :=
-     IsLinearMap.image_convexHull (LinearEquiv.finTwoArrow ℝ ℝ).symm.isLinear S
+  have lemma1 (S : Set (ℝ × ℝ)):  inject '' (convexHull ℝ S) = convexHull ℝ (inject '' S) := by
+    apply IsLinearMap.image_convexHull
+    -- TODO simpler proof here?
+    constructor <;> intro v w
+    · ext i; fin_cases i <;> norm_num [Pi.add_apply, add_assoc, add_comm, add_left_comm]
+    · ext i; fin_cases i <;> simp
   have lemma2 : Set.range (rect_vertices xmin xmax ymin ymax) = inject '' prodset := by
     ext p; constructor
     · intro ⟨w, e⟩ ;
@@ -297,7 +300,7 @@ def closed_rectangle_is_convex_hull (xmin xmax ymin ymax : ℝ) (xlt : xmin < xm
   rw [lemma2, ← lemma1, convexHull_prod, intervalx, intervaly]
   ext; exact ⟨id, id⟩
 
-lemma vector_ext (v : ℝ²) : ![v 0, v 1] = v := by ext i; fin_cases i <;> rfl
+lemma vector_ext (v : ℝ²) : !₂[v 0, v 1] = v := by ext i; fin_cases i <;> rfl
 
 def open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
     interior (closed_rectangle xmin xmax ymin ymax) = open_rectangle xmin xmax ymin ymax := by
@@ -318,9 +321,12 @@ def open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
        obtain ⟨w_1, ⟨w_2, ⟨left_2, right_1⟩⟩⟩ := hx1_in_X
        subst right right_1
        simp_all only [Fin.isValue, cons_val_zero, cons_val_one, cons_val_fin_one]
-     · exact Homeomorph.finTwoArrow.isOpen_image.mpr U_open
+     · let hplp := PiLp.homeomorph (ι := Fin 2) (β := fun _ ↦ ℝ) 2
+       let hplp' : (PiLp (ι := Fin 2) 2 fun x ↦ ℝ) ≃ₜ ℝ × ℝ := hplp.trans Homeomorph.finTwoArrow
+       rw [←hplp'.isOpen_image] at U_open
+       exact U_open
      · rw [Set.mem_image]
-       use ![p 0, p 1]
+       use !₂[p 0, p 1]
        simp_all only [Set.exists_subset_image_iff, Set.mem_image, Prod.exists, Fin.isValue, extract, cons_val_zero,
          cons_val_one, cons_val_fin_one, and_true]
        let ⟨_, ⟨_, ⟨_, ⟨_, ⟨_, ⟨_, right⟩⟩⟩⟩⟩⟩ := h
@@ -334,7 +340,10 @@ def open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
      · exact inject '' U
      · intro x hx
        exact Set.image_mono U_fits hx
-     · exact Homeomorph.finTwoArrow.symm.isOpen_image.mpr U_open
+     · let hplp := PiLp.homeomorph (ι := Fin 2) (β := fun _ ↦ ℝ) 2
+       let hplp' : (PiLp (ι := Fin 2) 2 fun x ↦ ℝ) ≃ₜ ℝ × ℝ := hplp.trans Homeomorph.finTwoArrow
+       rw [←hplp'.symm.isOpen_image] at U_open
+       exact U_open
      · rw [Set.mem_image]
        use (p0, p1);
        subst pext
@@ -356,7 +365,7 @@ def open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
 
 lemma nontrivial_rectangle0 : rnn 0 < rpp 0 := by
   simp only [rnn, rpp, outer_shadow_points_denorm, neg_mul, cons_val, PiLp.add_apply, PiLp.smul_apply,
-    smul_eq_mul, mul_neg, mul_zero, add_zero, neg_lt_self_iff, PiLp.toLp_apply]
+    smul_eq_mul, mul_neg, mul_zero, add_zero, neg_lt_self_iff]
   positivity
 
 lemma nontrivial_rectangle1 : rnn 1 < rpp 1 := by
@@ -373,29 +382,27 @@ lemma rect_fact1 : ![rpp 0, rnn 1] = rpn := by
   have coord0 : rpp 0 = rpn 0 := by
     simp only [Fin.isValue, rpp, one_div, outer_shadow_points_denorm, neg_mul, cons_val_one,
       cons_val_zero, cons_val, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul, mul_zero, add_zero,
-      rpn, PiLp.toLp_apply]
+      rpn]
   have coord1 : rnn 1 = rpn 1 := by
     simp only [Fin.isValue, rnn, one_div, outer_shadow_points_denorm, neg_mul, cons_val,
-      PiLp.add_apply, PiLp.smul_apply, cons_val_one, cons_val_fin_one, smul_eq_mul, mul_neg, rpn,
-      PiLp.toLp_apply]
+      PiLp.add_apply, PiLp.smul_apply, cons_val_one, cons_val_fin_one, smul_eq_mul, mul_neg, rpn]
   rw [← vector_ext rpn, coord0, coord1]
 
 lemma rect_fact2 : ![rnn 0, rpp 1] = rnp := by
   have coord0 : rnn 0 = rnp 0 := by
     simp only [Fin.isValue, rnn, one_div, outer_shadow_points_denorm, neg_mul, cons_val,
       PiLp.add_apply, PiLp.smul_apply, cons_val_zero, smul_eq_mul, mul_neg, mul_zero, add_zero,
-      rnp, PiLp.toLp_apply]
+      rnp]
   have coord1 : rpp 1 = rnp 1 := by
     simp only [Fin.isValue, rpp, one_div, outer_shadow_points_denorm, neg_mul, cons_val,
-      PiLp.add_apply, PiLp.smul_apply, cons_val_one, cons_val_fin_one, smul_eq_mul, rnp,
-      PiLp.toLp_apply]
+      PiLp.add_apply, PiLp.smul_apply, cons_val_one, cons_val_fin_one, smul_eq_mul, rnp]
   rw [← vector_ext rnp, coord0, coord1]
 
 lemma mediant_sub_hull_outer : Set.range (rect_vertices (rnn 0) (rpp 0) (rnn 1) (rpp 1)) ⊆ convexHull ℝ outer_shadow := by
   intro x ⟨i, hx⟩
   fin_cases i <;>
   · rw [← hx]
-    simp only [rect_vertices, vector_ext, rect_fact1, rect_fact2, Fin.isValue]
+    simp [matrix_simps, rect_vertices, vector_ext, rect_fact1, rect_fact2, Fin.isValue]
     try apply rnn_in_shadow
     try apply rpn_in_shadow
     try apply rnp_in_shadow
@@ -413,56 +420,54 @@ theorem rupert : IsRupert cube := by
   use 1, Submonoid.one_mem SO3, 0, outer_rot, outer_rot_so3
   intro inner_shadow outshad x hx
   let ⟨w, p⟩ := hx
-  simp only [Matrix.one_mulVec, zero_add] at p
+  simp only [zero_add] at p
   fin_cases w
   · apply (show interior closed_mediant ⊆ interior (convexHull ℝ outer_shadow) by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.zero_eta, cons_val_zero, cons_val_one, cons_val_fin_one,
-      inject]
-    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_,⟩, rfl⟩
-    · exact rnn_contains_cube2.1
-    · exact rpp_contains_cube.1
-    · exact rnn_contains_cube2.2
-    · exact rpp_contains_cube.2
+    simp only [Fin.isValue, extract, Fin.zero_eta, cons_val_zero, cons_val_one, cons_val_fin_one, inject]
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_,⟩, ⟨⟩⟩
+    · simp [rnn_contains_cube2.1]
+    · simp [rpp_contains_cube.1]
+    · simp [rnn_contains_cube2.2]
+    · simp [rpp_contains_cube.2]
 
   · apply (show interior closed_mediant ⊆ interior (convexHull ℝ outer_shadow) by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.mk_one, cons_val_one, cons_val_zero, cons_val_fin_one,
-      inject]
-    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
-    · exact rnn_contains_cube2.1
-    · exact rpp_contains_cube.1
-    · exact rnn_contains_cube.2
-    · exact rpp_contains_cube2.2
+    simp only [Fin.isValue, extract, Fin.mk_one, cons_val_one, cons_val_zero, cons_val_fin_one, inject]
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
+    · simp [rnn_contains_cube2.1]
+    · simp [rpp_contains_cube.1]
+    · simp [rnn_contains_cube.2]
+    · simp [rpp_contains_cube2.2]
   · apply (show interior closed_mediant ⊆ interior (convexHull ℝ outer_shadow) by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
-    simp only [PiLp.toLp_apply, Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
+    simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, cons_val_zero, cons_val_one,
       cons_val_fin_one, inject]
-    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
-    · exact rnn_contains_cube.1
-    · exact rpp_contains_cube2.1
-    · exact rnn_contains_cube.2
-    · exact rpp_contains_cube2.2
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
+    · simp [rnn_contains_cube.1]
+    · simp [rpp_contains_cube2.1]
+    · simp [rnn_contains_cube.2]
+    · simp [rpp_contains_cube2.2]
   · apply (show interior closed_mediant ⊆ interior (convexHull ℝ outer_shadow) by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
-    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
-    · exact rnn_contains_cube.1
-    · exact rpp_contains_cube2.1
-    · exact rnn_contains_cube2.2
-    · exact rpp_contains_cube.2
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
+    · simp [rnn_contains_cube.1]
+    · simp [rpp_contains_cube2.1]
+    · simp [rnn_contains_cube2.2]
+    · simp [rpp_contains_cube.2]
 
   · apply (show interior closed_mediant ⊆ interior (convexHull ℝ outer_shadow) by
                  apply interior_mono; exact mediant_sub_outer)
@@ -471,10 +476,10 @@ theorem rupert : IsRupert cube := by
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
-    · exact rnn_contains_cube2.1
-    · exact rpp_contains_cube.1
-    · exact rnn_contains_cube2.2
-    · exact rpp_contains_cube.2
+    · simp [rnn_contains_cube2.1]
+    · simp [rpp_contains_cube.1]
+    · simp [rnn_contains_cube2.2]
+    · simp [rpp_contains_cube.2]
 
 -- second half of points, same as the first:
   · apply (show interior closed_mediant ⊆ interior (convexHull ℝ outer_shadow) by
@@ -484,29 +489,29 @@ theorem rupert : IsRupert cube := by
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, inject]
     refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
-    · exact rnn_contains_cube2.1
-    · exact rpp_contains_cube.1
-    · exact rnn_contains_cube.2
-    · exact rpp_contains_cube2.2
+    · simp [rnn_contains_cube2.1]
+    · simp [rpp_contains_cube.1]
+    · simp [rnn_contains_cube.2]
+    · simp [rpp_contains_cube2.2]
   · apply (show interior closed_mediant ⊆ interior (convexHull ℝ outer_shadow) by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
-    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
-    · exact rnn_contains_cube.1
-    · exact rpp_contains_cube2.1
-    · exact rnn_contains_cube.2
-    · exact rpp_contains_cube2.2
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
+    · simp [rnn_contains_cube.1]
+    · simp [rpp_contains_cube2.1]
+    · simp [rnn_contains_cube.2]
+    · simp [rpp_contains_cube2.2]
   · apply (show interior closed_mediant ⊆ interior (convexHull ℝ outer_shadow) by
                  apply interior_mono; exact mediant_sub_outer)
     rw [closed_mediant, open_rectangle_is_interior]
     use extract x
     simp only [Set.prod, Set.mem_Ioo, Set.mem_setOf_eq, proj_xy, cube, ← p]
     simp only [Fin.isValue, extract, Fin.reduceFinMk, cons_val, inject]
-    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, rfl⟩
-    · exact rnn_contains_cube.1
-    · exact rpp_contains_cube2.1
-    · exact rnn_contains_cube2.2
-    · exact rpp_contains_cube.2
+    refine ⟨⟨⟨?_, ?_⟩, ?_, ?_⟩, ⟨⟩⟩
+    · simp [rnn_contains_cube.1]
+    · simp [rpp_contains_cube2.1]
+    · simp [rnn_contains_cube2.2]
+    · simp [rpp_contains_cube.2]

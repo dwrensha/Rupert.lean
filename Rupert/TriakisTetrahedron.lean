@@ -42,7 +42,7 @@ lemma outer_rot_so3 : outer_rot ∈ SO3 := by
   have h : outer_quat.normSq ≠ 0 := by norm_num [outer_quat, Quaternion.normSq_def]
   exact matrix_of_quat_is_s03 h
 
-set_option maxHeartbeats 400000 in
+set_option maxHeartbeats 1000000 in
 theorem rupert : IsRupert vertices := by
   rw [rupert_iff_rupert']
   use inner_rot, inner_rot_so3, inner_offset, outer_rot, outer_rot_so3
@@ -80,7 +80,7 @@ theorem rupert : IsRupert vertices := by
             0]
     ]
     all_goals
-      use fun i ↦ proj_xy (outer_rot *ᵥ vertices i)
+      use fun i ↦ proj_xy (outer_rot.toEuclideanLin (vertices i))
       refine ⟨?_, ?_, ?_, ?_⟩
       · apply all_fin_8_vec <;> norm_num
       · simp [Fin.sum_univ_eight]; norm_num
@@ -169,11 +169,11 @@ theorem rupert : IsRupert vertices := by
           0]
   ]
   all_goals
-    use fun i ↦ (1 - ε₁) • (proj_xy (outer_rot *ᵥ vertices i))
+    use fun i ↦ (1 - ε₁) • (proj_xy (outer_rot.toEuclideanLin (vertices i)))
     refine ⟨?_, ?_, ?_, ?_⟩
     · apply all_fin_8_vec <;> norm_num
     · simp only [Fin.sum_univ_eight, matrix_simps]; norm_num
-    · exact fun i ↦ ⟨proj_xy (outer_rot *ᵥ vertices i), by simp [outer_shadow]⟩
+    · exact fun i ↦ ⟨proj_xy (outer_rot.toEuclideanLin (vertices i)), by simp [outer_shadow]⟩
     · rw [←hy]
       simp only [proj_xy, outer_rot, matrix_of_quat, outer_quat, vertices,
         Fin.sum_univ_eight, inner_offset, inner_rot, inner_quat, ε₁, matrix_simps]

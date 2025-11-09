@@ -34,6 +34,7 @@ lemma inner_rot_so3 : inner_rot ∈ SO3 := by
 
 def inner_offset : ℝ² := !₂[0.098412,-0.165800]
 
+set_option maxHeartbeats 500000 in
 theorem rupert : IsRupert vertices := by
   rw [rupert_iff_rupert']
   use inner_rot, inner_rot_so3, inner_offset, outer_rot, outer_rot_so3
@@ -63,7 +64,7 @@ theorem rupert : IsRupert vertices := by
             35930786947771/108251262955000]
     ]
     all_goals
-      use fun i ↦ proj_xy (outer_rot *ᵥ vertices i)
+      use fun i ↦ proj_xy (outer_rot.toEuclideanLin (vertices i))
       refine ⟨?_, ?_, ?_, ?_⟩
       · intro i; fin_cases i <;> norm_num
       · simp [Fin.sum_univ_four]; norm_num
@@ -100,11 +101,11 @@ theorem rupert : IsRupert vertices := by
           2351884362789884221156292593/13530030747431979580288854750]
   ]
   all_goals
-    use fun i ↦ (1 - ε₁) • (proj_xy (outer_rot *ᵥ vertices i))
+    use fun i ↦ (1 - ε₁) • (proj_xy (outer_rot.toEuclideanLin (vertices i)))
     refine ⟨?_, ?_, ?_, ?_⟩
     · intro i; fin_cases i <;> norm_num
     · simp only [Fin.sum_univ_four, matrix_simps]; norm_num
-    · exact fun i ↦ ⟨proj_xy (outer_rot *ᵥ vertices i), by simp [outer_shadow]⟩
+    · exact fun i ↦ ⟨proj_xy (outer_rot.toEuclideanLin (vertices i)), by simp [outer_shadow]⟩
     · rw [←hy]
       simp only [proj_xy, outer_rot, matrix_of_quat, outer_quat, vertices, Fin.sum_univ_four,
                  inner_offset, inner_rot, inner_quat, ε₁, matrix_simps]
