@@ -1,4 +1,3 @@
-import Mathlib
 import Rupert.Basic
 import Rupert.Set
 import Rupert.Affine

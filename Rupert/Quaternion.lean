@@ -1,4 +1,6 @@
-import Mathlib
+import Mathlib.Algebra.Lie.OfAssociative
+import Mathlib.Algebra.Quaternion
+import Mathlib.LinearAlgebra.CrossProduct
 import Rupert.Basic
 
 /-- Converts a quaternion to a normalized rotation matrix. -/

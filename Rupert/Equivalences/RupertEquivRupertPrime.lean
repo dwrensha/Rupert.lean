@@ -1,5 +1,3 @@
-import Mathlib
-import Rupert.Basic
 import Rupert.Equivalences.Util
 open Matrix
 

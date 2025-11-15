@@ -1,4 +1,4 @@
-import Mathlib
+import Mathlib.Geometry.Euclidean.Projection
 
 /-- The Rupert Property for a pair of subsets X, Y of an arbitrary
     finite-dimensional real affine space P. X has the Rupert property

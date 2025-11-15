@@ -1,4 +1,6 @@
-import Mathlib
+import Mathlib.Analysis.InnerProductSpace.PiL2
+import Mathlib.Data.Real.StarOrdered
+
 open Pointwise
 
 namespace Convex
