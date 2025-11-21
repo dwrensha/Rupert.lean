@@ -51,7 +51,6 @@ lemma outer_rot_so3 : outer_rot ∈ SO3 := by
      simp [Matrix.mul_apply, Fin.sum_univ_three, rh_lemma]
   · simp [det_succ_row_zero, Fin.sum_univ_three, rh_lemma]
 
-set_option maxHeartbeats 10000000 in
 theorem square_is_rupert : IsRupert vertices := by
 /-
 
