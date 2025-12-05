@@ -15,6 +15,11 @@ can we cut a hole in one copy, such that the other copy fits through the hole?
 |tetrahedron | [Rupert/Tetrahedron.lean](Rupert/Tetrahedron.lean)|
 |triakis tetrahedron | [Rupert/TriakisTetrahedron.lean](Rupert/TriakisTetrahedron.lean)|
 
+## Related Projects
+
+The [Noperthedron](https://github.com/jcreedcmu/Noperthedron) project
+is working on formalizing a proof that the [Noperthedron](https://arxiv.org/abs/2508.18475) is not Rupert.
+
 ## Videos
 
 The proof for the triakis tetrahedron is explained in this video:
