@@ -17,7 +17,7 @@ can we cut a hole in one copy, such that the other copy fits through the hole?
 
 ## Related Projects
 
-The [Noperthedron](https://github.com/jcreedcmu/Noperthedron) project
+The [Noperthedron Project](https://github.com/jcreedcmu/Noperthedron)
 is working on formalizing a proof that the [Noperthedron](https://arxiv.org/abs/2508.18475) is not Rupert.
 
 ## Videos
