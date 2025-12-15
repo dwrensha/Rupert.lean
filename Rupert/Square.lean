@@ -22,7 +22,7 @@ theorem rh_lemma : rh * rh + rh * rh  = 1 := by
   calc rh * rh + rh * rh
        _ = 2 * (√2 / 2)^2 := by rw[rh]; ring
        _ = 2 * ((√2 * √2) / 2^2) := by rw[div_pow]; ring
-       _ = 2 * (2 / 2^2) := by rw[mul_self_sqrt (by norm_num)]
+       _ = 2 * (2 / 2^2) := by simp
        _ = 1 := by norm_num
 
 abbrev inner_rot : Matrix (Fin 3) (Fin 3) ℝ :=
@@ -177,7 +177,7 @@ by π/4 radians. No offset translation is needed.
        use !₂[√2, 0]
        constructor
        · rw [Set.mem_setOf]
-         use 3; simp [vecHead, vecTail]
+         use 3; simp
        · ext i
          fin_cases i <;> simp
      · simp only [proj_xy, outer_rot, rh, Fin.isValue, cons_val_fin_one,
@@ -222,7 +222,7 @@ by π/4 radians. No offset translation is needed.
        simp only [Fin.isValue, cons_val_zero, neg_sub, Fin.zero_eta, Set.mem_image]
        use !₂[√2, 0]
        constructor
-       · use 3; simp [vecHead, vecTail]
+       · use 3; simp
        · ext i
          fin_cases i <;> simp
      · simp only [proj_xy,outer_rot, rh, Fin.isValue,
