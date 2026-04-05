@@ -44,7 +44,7 @@ lemma move_scale {n : ℕ} {s : ℝ} (sgz : s > 0) {v : E n} {Y : Set (E n)} :
   rw [one_div_mul_cancel (ne_of_lt sgz).symm, one_smul]
   exact winy
 
-lemma subset_interior_hull' {n : ℕ} {X : Set (E n)} {ε ℓ: ℝ}
+lemma subset_interior_hull' {n : ℕ} {X : Set (E n)} {ε ℓ : ℝ}
     (hε : 0 < ε)
     (hℓ : ℓ ∈ Set.Ioo 0 1)
     (h0 : Metric.ball 0 ε ⊆ X) :
@@ -87,7 +87,7 @@ lemma subset_interior_hull' {n : ℕ} {X : Set (E n)} {ε ℓ: ℝ}
 
   exact segment_subset_convexHull seg1_in_X seg2_in_X pt_in_seg
 
-lemma subset_interior_hull {n : ℕ} {X : Set (E n)} {ε₀ ε₁: ℝ}
+lemma subset_interior_hull {n : ℕ} {X : Set (E n)} {ε₀ ε₁ : ℝ}
     (hε₀ : 0 < ε₀)
     (hε₁ : ε₁ ∈ Set.Ioo 0 1)
     (h0 : Metric.ball 0 ε₀ ⊆ convexHull ℝ X) :
