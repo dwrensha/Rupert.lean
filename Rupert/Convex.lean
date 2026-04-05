@@ -58,7 +58,7 @@ lemma subset_interior_hull' {n : ℕ} {X : Set (E n)} {ε ℓ : ℝ}
   -- Here we choose the radius around ix that is fully contained in X.
   use Metric.ball ix ((1 - ℓ) * ε)
 
-  have hb : 0 < (1 - ℓ) * ε := by simp_all only [Set.mem_Ioo, mul_pos_iff_of_pos_left, sub_pos]
+  have hb : 0 < (1 - ℓ) * ε := mul_pos olgz hε
   refine ⟨⟨Metric.isOpen_ball, ?_⟩, Metric.mem_ball_self hb⟩
   intro u hu
 
