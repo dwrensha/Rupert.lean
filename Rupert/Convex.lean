@@ -52,8 +52,8 @@ lemma subset_interior_hull' {n : ℕ} {X : Set (E n)} {ε ℓ : ℝ}
   intro ix hix -- "inner x"
   apply Set.mem_sUnion.mpr
 
-  have lnz : ℓ ≠ 0 := ne_of_gt (by (simp_all only [Set.mem_Ioo]))
-  have olgz : 1 - ℓ > 0 := by simp_all only [Set.mem_Ioo, sub_pos]
+  have lnz : ℓ ≠ 0 := ne_of_gt (by simp_all only [Set.mem_Ioo])
+  have olgz : 0 < 1 - ℓ := by simp_all only [Set.mem_Ioo, sub_pos]
 
   -- Here we choose the radius around ix that is fully contained in X.
   use Metric.ball ix ((1 - ℓ) * ε)
