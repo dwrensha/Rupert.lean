@@ -6,6 +6,7 @@ import Rupert.Cube
 import Rupert.FinCases
 import Rupert.Icosahedron
 import Rupert.MatrixSimps
+import Rupert.Nopert214
 import Rupert.Quaternion
 import Rupert.Equivalences.RupertEquivRupertPrime
 import Rupert.Equivalences.RupertEquivRupertSet
@@ -37,3 +38,9 @@ info: 'TriakisTetrahedron.rupert' depends on axioms: [propext, Classical.choice,
 -/
 #guard_msgs in
 #print axioms TriakisTetrahedron.rupert
+
+/--
+info: 'Nopert214.rupert' depends on axioms: [propext, Classical.choice, Quot.sound]
+-/
+#guard_msgs in
+#print axioms Nopert214.rupert

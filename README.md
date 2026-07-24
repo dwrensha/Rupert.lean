@@ -14,6 +14,7 @@ can we cut a hole in one copy, such that the other copy fits through the hole?
 |cube | [Rupert/Cube.lean](Rupert/Cube.lean) |
 |tetrahedron | [Rupert/Tetrahedron.lean](Rupert/Tetrahedron.lean)|
 |triakis tetrahedron | [Rupert/TriakisTetrahedron.lean](Rupert/TriakisTetrahedron.lean)|
+|nopert #214 | [Rupert/Nopert214.lean](Rupert/Nopert214.lean)|
 
 ## Related Projects
 
