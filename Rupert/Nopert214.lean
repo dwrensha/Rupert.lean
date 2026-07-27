@@ -11,8 +11,8 @@ import Rupert.Equivalences.RupertEquivRupertPrime
    exact rationals.  The polyhedron is (up to the printed precision) the
    orbit of its first four vertices under rotation by 72° about the z
    axis.  Its Rupert passage is astronomically tight: the inner shadow
-   clears the outer shadow boundary by about 1.8e-8, which is why
-   floating-point search classified this solid as a nopert.
+   clears the outer shadow boundary by about 1.8e-8, tight enough to elude
+   stochastic tom7's stochastic search.
 
    The witness pose was found by following a failing formal *non*-Rupert
    proof attempt (in the Noperthedron project) to the exact spot where
