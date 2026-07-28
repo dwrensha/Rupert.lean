@@ -34,7 +34,7 @@ def denorm_matrix_of_quat {R : Type} [Field R] (q : Quaternion R)
        2 * (y * z + x * w),
        (w^2 - x^2 - y^2 + z^2)]
 
-def normalized_denorm_is_matrix {R : Type} [Field R] (q : Quaternion R) :
+theorem normalized_denorm_is_matrix {R : Type} [Field R] (q : Quaternion R) :
     let ⟨w, x, y, z⟩ := q
     let normsq := w^2 + x^2 + y^2 + z^2
     matrix_of_quat q = (1 / normsq) • denorm_matrix_of_quat q := by
@@ -74,7 +74,6 @@ lemma matrix_of_quat_is_unitary (q : Quaternion ℝ) (nz : Quaternion.normSq q �
  rw [normalized_denorm_is_matrix q]
  let n2 := (1 / (q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2))
  have local_arith : n2 * n2 * (Quaternion.normSq q)^2 = 1 := by
-       change n2 * n2 * Quaternion.normSq q ^ 2 = 1
        simp only [n2 ]
        rw [← Quaternion.normSq_def', sq, mul_mul_mul_comm]
        simp_all only [ne_eq, one_div, isUnit_iff_ne_zero, not_false_eq_true, IsUnit.inv_mul_cancel,

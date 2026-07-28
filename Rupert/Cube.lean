@@ -141,8 +141,7 @@ theorem rpp_contains_cube : 1 < rpp 0 ∧ 1 < rpp 1 := by
  dsimp only [rpp, outer_shadow_points_denorm, Matrix.cons_val,
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor <;>
- · dsimp
-   apply lt_of_mul_self_lt_mul_self₀ (by positivity)
+ · apply lt_of_mul_self_lt_mul_self₀ (by positivity)
    ring_nf
    norm_num
 
@@ -226,8 +225,7 @@ theorem rnn_contains_cube : -1 > rnn 0 ∧ -1 > rnn 1 := by
  dsimp only [rnn, outer_shadow_points_denorm, Matrix.cons_val,
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor <;>
- · dsimp
-   apply neg_lt_neg_iff.mp
+ · apply neg_lt_neg_iff.mp
    simp only [neg_neg, neg_mul, mul_neg, mul_zero, add_zero, neg_add_rev]
    apply lt_of_mul_self_lt_mul_self₀ (by positivity)
    ring_nf
@@ -238,9 +236,9 @@ theorem rnn_contains_cube2 : rnn 0 < 1 ∧ rnn 1 < 1 := by
      PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
  constructor
  · have : 0 < 3 / 4 * (1 / √6 * (√3 * 2)) + 1 / 4 * (1 / √6 * 0) + 1 := by positivity
-   lia
+   linarith
  · have : 0 < 3 / 4 * (1 / √6 * 2) + 1 / 4 * (1 / √6 * 4) + 1 := by positivity
-   lia
+   linarith
 
 ---------------------------------------------------------------------------------
 
@@ -253,7 +251,7 @@ def open_rectangle (xmin xmax ymin ymax : ℝ) : Set ℝ² := inject '' (Set.Ioo
 def closed_rectangle (xmin xmax ymin ymax : ℝ) : Set ℝ² := inject '' (Set.Icc xmin xmax ×ˢ Set.Icc ymin ymax)
 def rect_vertices (xmin xmax ymin ymax : ℝ) : Fin 4 → ℝ² := ![!₂[xmin,ymin], !₂[xmax,ymin], !₂[xmin,ymax], !₂[xmax,ymax]]
 
-def closed_rectangle_is_convex_hull (xmin xmax ymin ymax : ℝ) (xlt : xmin < xmax) (ylt : ymin < ymax) :
+theorem closed_rectangle_is_convex_hull (xmin xmax ymin ymax : ℝ) (xlt : xmin < xmax) (ylt : ymin < ymax) :
     closed_rectangle xmin xmax ymin ymax
     = convexHull ℝ (Set.range (rect_vertices xmin xmax ymin ymax)) := by
   let prodset : Set (ℝ × ℝ) := {xmin, xmax} ×ˢ {ymin, ymax}
@@ -299,7 +297,7 @@ def closed_rectangle_is_convex_hull (xmin xmax ymin ymax : ℝ) (xlt : xmin < xm
 
 lemma vector_ext (v : ℝ²) : !₂[v 0, v 1] = v := by ext i; fin_cases i <;> rfl
 
-def open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
+theorem open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
     interior (closed_rectangle xmin xmax ymin ymax) = open_rectangle xmin xmax ymin ymax := by
   simp only [closed_rectangle, open_rectangle]
   have transfer_int (X : Set (ℝ × ℝ)) : interior (inject '' X) = inject '' (interior X) := by
