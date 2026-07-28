@@ -1,4 +1,8 @@
-import Rupert.Basic
+module
+
+public import Rupert.Basic
+
+@[expose] public section
 
 open scoped Matrix
 

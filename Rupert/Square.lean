@@ -1,6 +1,10 @@
-import Rupert.Basic
-import Rupert.Convex
-import Rupert.Equivalences.RupertEquivRupertPrime
+module
+
+public import Rupert.Basic
+public import Rupert.Convex
+public import Rupert.Equivalences.RupertEquivRupertPrime
+
+@[expose] public section
 
 namespace Square
 

@@ -1,9 +1,12 @@
+module
 
-import Rupert.Basic
-import Rupert.Convex
-import Rupert.Quaternion
-import Rupert.MatrixSimps
-import Rupert.Equivalences.RupertEquivRupertPrime
+public import Rupert.Basic
+public import Rupert.Convex
+public import Rupert.Quaternion
+public meta import Rupert.MatrixSimps
+public import Rupert.Equivalences.RupertEquivRupertPrime
+
+@[expose] public section
 
 namespace Cube
 open Matrix
@@ -63,15 +66,7 @@ lemma outer_rot_so3 : outer_rot ∈ SO3 := by
      simp only [one_div, star_trivial, nsmul_eq_mul, Nat.cast_ofNat, mul_one]
      rw [← h, smul_smul, h2, one_smul]
  · have : (Fin.succAbove 2 1 : Fin 3) = 1 := by rfl
-   simp_all only [one_div, Matrix.smul_of, mul_zero,
-     Matrix.det_succ_row_zero,
-     Matrix.of_apply,
-     Matrix.submatrix_apply, Fin.succ_zero_eq_one,
-     Matrix.det_unique, Fin.default_eq_zero, Fin.succ_one_eq_two,
-     Fin.sum_univ_two, Fin.val_zero, Fin.zero_succAbove,
-     Fin.val_one, ne_eq, one_ne_zero, not_false_eq_true,
-     Fin.succAbove_ne_zero_zero, Fin.sum_univ_three, Fin.one_succAbove_one,
-     Fin.val_two, Fin.reduceEq, matrix_simps]
+   simp_all [Matrix.det_succ_row_zero, Matrix.det_unique, Fin.sum_univ_three, matrix_simps]
    ring_nf
    suffices h : (r * r * 6) * (√3 * √2) * r = 1 by (ring_nf at h; exact h)
    simp only [h2]

@@ -1,8 +1,21 @@
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Rupert.Attr
+module
 
-attribute [matrix_simps] Matrix.cons_dotProduct even_two Even.neg_pow neg_mul Nat.reduceAdd
-            sub_neg_eq_add mul_neg neg_neg Fin.isValue Matrix.cons_mulVec
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Rupert.Attr
+public meta import Lean.Meta.Tactic.Simp.BuiltinSimprocs.Fin
+public meta import Lean.Meta.Tactic.Simp.BuiltinSimprocs.Nat
+
+@[expose] public meta section
+
+def matrixSimpsReduceAdd : Lean.Meta.Simp.DSimproc := Nat.reduceAdd
+
+def matrixSimpsFinIsValue : Lean.Meta.Simp.DSimproc := Fin.isValue
+
+@[expose] public section
+
+attribute [matrix_simps] Matrix.cons_dotProduct even_two Even.neg_pow neg_mul
+            matrixSimpsReduceAdd sub_neg_eq_add mul_neg neg_neg matrixSimpsFinIsValue
+            Matrix.cons_mulVec
             Matrix.cons_dotProduct Matrix.dotProduct_of_isEmpty add_zero Matrix.empty_mulVec
             Matrix.cons_val_zero Matrix.cons_val_one smul_smul Matrix.head_cons
             mul_one Matrix.tail_cons Matrix.cons_val zero_mul zero_smul

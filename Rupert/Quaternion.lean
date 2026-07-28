@@ -1,7 +1,11 @@
-import Mathlib.Algebra.Lie.OfAssociative
-import Mathlib.Algebra.Quaternion
-import Mathlib.LinearAlgebra.CrossProduct
-import Rupert.Basic
+module
+
+public import Mathlib.Algebra.Lie.OfAssociative
+public import Mathlib.Algebra.Quaternion
+public import Mathlib.LinearAlgebra.CrossProduct
+public import Rupert.Basic
+
+@[expose] public section
 
 /-- Converts a quaternion to a normalized rotation matrix. -/
 def matrix_of_quat {R : Type} [Field R] (q : Quaternion R)

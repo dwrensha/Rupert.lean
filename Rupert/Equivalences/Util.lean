@@ -1,6 +1,10 @@
-import Mathlib.Algebra.Order.Archimedean.Real.Hom
-import Rupert.Basic
-import Rupert.Set
+module
+
+public import Mathlib.Algebra.Order.Archimedean.Real.Hom
+public import Rupert.Basic
+public import Rupert.Set
+
+@[expose] public section
 open Pointwise
 open Matrix
 

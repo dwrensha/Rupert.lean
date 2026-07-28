@@ -1,5 +1,9 @@
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Algebra.Order.Star.Real
+module
+
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Mathlib.Algebra.Order.Star.Real
+
+@[expose] public section
 
 open Pointwise
 

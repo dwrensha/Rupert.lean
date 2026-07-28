@@ -1,6 +1,10 @@
-import Mathlib.Data.Fin.VecNotation
-import Mathlib.Data.Fintype.Basic
-import Mathlib.Tactic.FinCases
+module
+
+public import Mathlib.Data.Fin.VecNotation
+public import Mathlib.Data.Fintype.Basic
+public import Mathlib.Tactic.FinCases
+
+@[expose] public section
 
 /--
 Lemma for helping with goals such as

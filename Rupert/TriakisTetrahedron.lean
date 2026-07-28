@@ -1,9 +1,13 @@
-import Rupert.Basic
-import Rupert.Convex
-import Rupert.FinCases
-import Rupert.MatrixSimps
-import Rupert.Quaternion
-import Rupert.Equivalences.RupertEquivRupertPrime
+module
+
+public import Rupert.Basic
+public import Rupert.Convex
+public import Rupert.FinCases
+public meta import Rupert.MatrixSimps
+public import Rupert.Quaternion
+public import Rupert.Equivalences.RupertEquivRupertPrime
+
+@[expose] public section
 
 namespace TriakisTetrahedron
 

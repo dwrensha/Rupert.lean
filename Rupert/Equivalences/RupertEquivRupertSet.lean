@@ -1,4 +1,8 @@
-import Rupert.Equivalences.Util
+module
+
+public import Rupert.Equivalences.Util
+
+@[expose] public section
 open Matrix
 
 theorem rupert_imp_rupert_set {ι : Type} [Fintype ι] (v : ι → ℝ³) :
