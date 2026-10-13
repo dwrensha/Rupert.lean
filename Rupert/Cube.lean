@@ -106,7 +106,7 @@ lemma outer_shadow_points_in_shadow : ∀ (i : Fin 8), (1/√6) • (outer_shado
       proj_xy_linear, LinearMap.coe_mk, AddHom.coe_mk]
   apply xfer
   unfold outer_shadow_denorm
-  rw [Set.mem_setOf_eq]
+  rw [Set.mem_ofPred_eq]
   use i
   fin_cases i <;> simp [matrix_simps, cube, proj_xy, outer_shadow_points_denorm, mul_two] <;> norm_num
 
@@ -310,7 +310,7 @@ theorem open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
        obtain ⟨w, ⟨left, ⟨left_1, ⟨w_3, ⟨w_4, ⟨left_3, right⟩⟩⟩⟩⟩⟩ := h
        obtain ⟨w_1, ⟨w_2, ⟨left_2, right_1⟩⟩⟩ := hx1_in_X
        subst right right_1
-       simp_all only [Fin.isValue, cons_val_zero, cons_val_one, cons_val_fin_one]
+       simp_all only [inject, Fin.isValue, cons_val_zero, cons_val_one, cons_val_fin_one]
      · let hplp := PiLp.homeomorph (ι := Fin 2) (β := fun _ ↦ ℝ) 2
        let hplp' : (PiLp (ι := Fin 2) 2 fun x ↦ ℝ) ≃ₜ ℝ × ℝ := hplp.trans Homeomorph.finTwoArrow
        rw [←hplp'.isOpen_image] at U_open
@@ -321,7 +321,7 @@ theorem open_rectangle_is_interior (xmin xmax ymin ymax : ℝ) :
          cons_val_one, cons_val_fin_one, and_true]
        let ⟨_, ⟨_, ⟨_, ⟨_, ⟨_, ⟨_, right⟩⟩⟩⟩⟩⟩ := h
        subst right
-       simp_all only [Fin.isValue, cons_val_zero, cons_val_one, cons_val_fin_one]
+       simp_all only [inject, Fin.isValue, cons_val_zero, cons_val_one, cons_val_fin_one]
      · apply vector_ext
    · intro h
      simp only [inject, Set.mem_image, Prod.exists, mem_interior] at h ⊢
